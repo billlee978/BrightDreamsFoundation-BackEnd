@@ -24,6 +24,9 @@ public class DonationController {
                                               Donation donation) {
         IPage<Donation> pageParam = new Page<>(page, limit);
         LambdaQueryWrapper<Donation> wrapper = new LambdaQueryWrapper<>();
+        if (donation.getDonationId() != null) {
+            wrapper.eq(Donation::getDonationId, donation.getDonationId());
+        }
         if (donation.getDonatorId() != null && donation.getDonatorId() != 0L) {
             wrapper.eq(Donation::getDonatorId, donation.getDonatorId());
         }

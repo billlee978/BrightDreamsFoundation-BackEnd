@@ -31,6 +31,16 @@ public class User {
     String roleName;
     @TableField(value = "REALNAME")
     String realName;
+    @TableField(value = "SCHOOL")
+    String school;
+    @TableField(value = "CLAZZ")
+    String clazz;
+    @TableField(value = "AGE", jdbcType = JdbcType.TINYINT)
+    byte age;
+    @TableField(value = "GENDER", jdbcType = JdbcType.TINYINT)
+    byte gender;
+    @TableField(exist = false)
+    String genderStr;
     @TableField(value = "CREATEDATE")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     LocalDateTime createDate;

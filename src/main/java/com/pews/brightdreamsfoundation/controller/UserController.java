@@ -54,6 +54,15 @@ public class UserController {
                 default:
                     break;
             }
+
+            switch (record.getGender()) {
+                case 0:
+                    record.setGenderStr("女");
+                    break;
+                case 1:
+                    record.setGenderStr("男");
+                    break;
+            }
         }
         return new HttpResponseEntity(200, iPage, "OK");
     }
