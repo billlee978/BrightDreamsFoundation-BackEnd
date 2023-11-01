@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.mapper.UserMapper;
+import com.pews.brightdreamsfoundation.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,9 @@ import java.util.List;
 class BrightDreamsFoundationApplicationTests {
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    UserService userService;
 
     @Test
     public void testMapperSelect() {
@@ -71,6 +75,18 @@ class BrightDreamsFoundationApplicationTests {
         //3 调用方法实现
         IPage<User> pageModel = userMapper.selectPage(pageParam, wrapper);
         System.out.println(pageModel);
+    }
+
+    @Test
+    public void testGetVulBind() {
+        for (User user : userMapper.getVulFromBind(1L)) {
+            System.out.println(user);
+        }
+
+        for (User user : userService.getVulNotBind(1L)) {
+            System.out.println(user);
+        }
+
     }
 
 }

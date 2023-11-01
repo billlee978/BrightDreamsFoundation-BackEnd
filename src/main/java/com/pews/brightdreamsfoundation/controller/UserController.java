@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -27,6 +29,14 @@ public class UserController {
         if (user.getUsername() != null) {
             wrapper.like(User::getUsername, user.getUsername());
         }
+        if (user.getRealName() != null) {
+            wrapper.like(User::getRealName, user.getRealName());
+        }
+
+        if (user.getRole() != 0) {
+            wrapper.eq(User::getRole, user.getRole());
+        }
+
         IPage<User> iPage = userService.page(pageParam, wrapper);
         for (User record : iPage.getRecords()) {
             switch (record.getRole()) {
@@ -82,6 +92,27 @@ public class UserController {
     @DeleteMapping("batchRemove")
     public HttpResponseEntity batchRemove(@RequestBody List<String> idList) {
         return userService.removeBatchByIds(idList) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
+    }
+
+    @GetMapping("getBind/{id}/{isBind}/{isFromChild}")
+    public HttpResponseEntity getBind(@PathVariable("id") Long id,
+                                      @PathVariable("isBind") Boolean isBind,
+                                      @PathVariable("isFromChild") Boolean isFromChild) {
+        if (isBind) {
+            return new HttpResponseEntity(200, userService.getBind(id, isFromChild), "OK!");
+        } else {
+            return new HttpResponseEntity(200, userService.getNotBind(id, isFromChild), "OK!");
+        }
+    }
+
+    @PostMapping("bind/{id}/{isChildBind}")
+    public HttpResponseEntity bind(@PathVariable("id") Long id, @RequestBody List<Long> idList, @PathVariable("isChildBind") Boolean isChildBind) {
+        return new HttpResponseEntity(200, userService.bind(id, idList, isChildBind), "OK!");
+    }
+
+    @DeleteMapping("unbind/{id}/{isChildUnbind}")
+    public HttpResponseEntity unbind(@PathVariable("id") Long id, @RequestBody List<Long> idList, @PathVariable("isChildUnbind") Boolean isChildUnbind) {
+        return new HttpResponseEntity(200, userService.unbind(id, idList, isChildUnbind), "OK!");
     }
 
 }

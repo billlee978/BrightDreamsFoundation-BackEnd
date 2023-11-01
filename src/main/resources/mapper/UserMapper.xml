@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pews.brightdreamsfoundation.mapper.UserMapper">
+    <select id="getVulFromBind" resultType="com.pews.brightdreamsfoundation.beans.User">
+        select tu.*
+        from t_binding tb
+        join t_user tu
+        on tb.VOLUNTEER_ID = tu.ID
+        where tb.CHILD_ID = #{id} and tb.IS_DELETED = 0;
+    </select>
 
+    <select id="getChildFromBind" resultType="com.pews.brightdreamsfoundation.beans.User">
+        select tu.*
+        from t_binding tb
+        join t_user tu
+        on tb.CHILD_ID = tu.ID
+        where tb.VOLUNTEER_ID = #{id} and tb.IS_DELETED = 0;
+    </select>
+
+    <insert id="bind" >
+        insert into t_binding (CHILD_ID, VOLUNTEER_ID)
+        values (#{childId},#{vulId});
+    </insert>
+
+    <update id="unbind">
+        update t_binding
+        set IS_DELETED = 1
+        where VOLUNTEER_ID = #{vulId} and CHILD_ID = #{childId};
+    </update>
 </mapper>
