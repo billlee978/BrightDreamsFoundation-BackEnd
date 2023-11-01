@@ -32,7 +32,6 @@ public class UserController {
         if (user.getRealName() != null) {
             wrapper.like(User::getRealName, user.getRealName());
         }
-
         if (user.getRole() != 0) {
             wrapper.eq(User::getRole, user.getRole());
         }

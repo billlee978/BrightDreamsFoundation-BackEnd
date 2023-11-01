@@ -3,6 +3,7 @@ package com.pews.brightdreamsfoundation.beans;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,11 @@ public class Donation {
     @TableId
     Long id;
     @TableField("DONATION_ID")
-    UUID donationId;
+    String donationId;
+    @TableField("DONATOR_ID")
+    Long donatorId;
+    @TableField("DONATOR_NAME")
+    String donatorName;
     @TableField("DONATE_ITEM")
     String donationItem;
     @TableField("DONATE_ACCEPT")
@@ -32,6 +37,7 @@ public class Donation {
     @TableField("CURRENT_LOCATION")
     String currentLocation;
     @TableField("EST_ARRIVE_TIME")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     LocalDateTime estArriveTime;
     @TableField("DONATE_DESCRIPTION")
     String donateDescription;

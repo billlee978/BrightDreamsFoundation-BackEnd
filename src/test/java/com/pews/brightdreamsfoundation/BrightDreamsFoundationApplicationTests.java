@@ -3,14 +3,19 @@ package com.pews.brightdreamsfoundation;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pews.brightdreamsfoundation.beans.Donation;
 import com.pews.brightdreamsfoundation.beans.User;
+import com.pews.brightdreamsfoundation.mapper.DonationMapper;
 import com.pews.brightdreamsfoundation.mapper.UserMapper;
 import com.pews.brightdreamsfoundation.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @SpringBootTest
 class BrightDreamsFoundationApplicationTests {
@@ -19,6 +24,9 @@ class BrightDreamsFoundationApplicationTests {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    DonationMapper donationMapper;
 
     @Test
     public void testMapperSelect() {
@@ -79,13 +87,11 @@ class BrightDreamsFoundationApplicationTests {
 
     @Test
     public void testGetVulBind() {
-        for (User user : userMapper.getVulFromBind(1L)) {
-            System.out.println(user);
-        }
+        System.out.println(UUID.randomUUID().toString());
+    }
 
-        for (User user : userService.getVulNotBind(1L)) {
-            System.out.println(user);
-        }
+    @Test
+    public void testInsertDonation() {
 
     }
 

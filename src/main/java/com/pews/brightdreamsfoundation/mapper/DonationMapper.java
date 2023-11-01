@@ -1,6 +1,9 @@
 package com.pews.brightdreamsfoundation.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.pews.brightdreamsfoundation.beans.Donation;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface DonationMapper extends BaseMapper<> {
+@Mapper
+public interface DonationMapper extends BaseMapper<Donation> {
 }
