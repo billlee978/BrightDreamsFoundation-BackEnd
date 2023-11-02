@@ -26,7 +26,7 @@ public class PointHistory {
     Long change;
     @TableField(value = "DESCRIPTION")
     String description;
-    @TableField(value = "CHANGEDATE")
+    @TableField(value = "CHANGE_DATE")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     LocalDateTime changeDate;
 }

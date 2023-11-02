@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class Mission {
     @TableId
     Long id;
-    @TableField(value = "MISSIONNAME")
+    @TableField(value = "MISSION_NAME")
     String missionName;
     @TableField(value = "DESCRIPTION")
     String description;

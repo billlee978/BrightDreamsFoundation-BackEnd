@@ -18,7 +18,7 @@ import lombok.ToString;
 public class Good {
     @TableId
     Long id;
-    @TableField(value = "GOODNAME")
+    @TableField(value = "GOOD_NAME")
     String goodName;
     @TableField(value = "DESCRIPTION")
     String description;
