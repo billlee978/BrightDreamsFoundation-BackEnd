@@ -123,4 +123,15 @@ public class UserController {
         return new HttpResponseEntity(200, userService.unbind(id, idList, isChildUnbind), "OK!");
     }
 
+    @PostMapping("register")
+    public HttpResponseEntity register(@RequestBody User user) {
+        System.out.println(user);
+        if (userService.register(user) != 0) {
+            return new HttpResponseEntity(404, null, "注册失败，用户已经存在!");
+        } else {
+            return new HttpResponseEntity(200, null, "注册成功!");
+        }
+    }
+
+
 }
