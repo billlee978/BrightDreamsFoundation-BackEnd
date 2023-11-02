@@ -35,6 +35,8 @@ public class User {
     String school;
     @TableField(value = "CLAZZ")
     String clazz;
+    @TableField(value = "POINTS", jdbcType = JdbcType.BIGINT)
+    Long points;
     @TableField(value = "AGE", jdbcType = JdbcType.TINYINT)
     byte age;
     @TableField(value = "GENDER", jdbcType = JdbcType.TINYINT)
