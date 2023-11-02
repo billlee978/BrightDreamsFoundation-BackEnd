@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDateTime;
 
@@ -26,4 +27,8 @@ public class MissionHistory {
     @TableField(value = "FINISH_DATE")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     LocalDateTime finishDate;
+    @TableField(value = "SUBMISSION_URL")
+    String submissionURL;
+    @TableField(value = "STATUS", jdbcType = JdbcType.TINYINT)
+    Byte status;
 }

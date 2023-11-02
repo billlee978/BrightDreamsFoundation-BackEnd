@@ -34,8 +34,13 @@ public class Mission {
     @TableField(value = "DEADLINE")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     LocalDateTime deadline;
+    @TableField(value = "RELEASE_DATE")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    LocalDateTime releaseDate;
     @TableLogic(delval = "1")
     byte isDeleted;
-    @TableField(value = "IS_EXPIRED", jdbcType = JdbcType.BOOLEAN)
-    boolean isExpired;
+    @TableField(value = "PICTURE_URL")
+    String pictureURL;
+    @TableField(value = "IS_RELEASED", jdbcType = JdbcType.BOOLEAN)
+    boolean isReleased;
 }
