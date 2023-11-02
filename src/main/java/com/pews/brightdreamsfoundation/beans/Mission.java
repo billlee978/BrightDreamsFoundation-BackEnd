@@ -29,8 +29,8 @@ public class Mission {
     byte kind;
     @TableField(exist = false)
     String kindName;
-    @TableField(value = "REWARD", jdbcType = JdbcType.TINYINT)
-    byte reward;
+    @TableField(value = "REWARD")
+    int reward;
     @TableField(value = "DEADLINE")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     LocalDateTime deadline;
