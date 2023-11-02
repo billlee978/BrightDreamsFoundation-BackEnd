@@ -29,6 +29,8 @@ public class Mission {
     byte kind;
     @TableField(exist = false)
     String kindName;
+    @TableField(value = "TARGET_NUM")
+    int targetNum;
     @TableField(value = "REWARD")
     int reward;
     @TableField(value = "DEADLINE")
