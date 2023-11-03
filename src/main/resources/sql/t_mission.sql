@@ -1,24 +1,24 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1 MySQL8.0
+ Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 80032
+ Source Server Version : 80032 (8.0.32)
  Source Host           : localhost:3306
  Source Schema         : brightdreams
 
  Target Server Type    : MySQL
- Target Server Version : 80032
+ Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 02/11/2023 19:20:03
+ Date: 03/11/2023 17:20:40
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for mission
+-- Table structure for t_mission
 -- ----------------------------
 DROP TABLE IF EXISTS `t_mission`;
 CREATE TABLE `t_mission`  (
@@ -26,7 +26,6 @@ CREATE TABLE `t_mission`  (
   `mission_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `kind` tinyint NULL DEFAULT NULL,
-  `kind_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `reward` int NULL DEFAULT NULL,
   `deadline` datetime NULL DEFAULT NULL,
   `release_date` datetime NULL DEFAULT NULL,
@@ -34,6 +33,10 @@ CREATE TABLE `t_mission`  (
   `picture_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `is_released` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of t_mission
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
