@@ -1,6 +1,7 @@
 package com.pews.brightdreamsfoundation.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.mapper.UserMapper;
@@ -72,5 +73,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
         }
         return count;
+    }
+
+    @Override
+    public int register(User user) {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("USERNAME",user.getUsername());
+        List<User> users = userMapper.selectList(wrapper);
+        if (users.size() >= 1) {
+            return 1;
+        }else {
+            userMapper.insert(user);
+            return 0;
+        }
     }
 }
