@@ -20,8 +20,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for good
 -- ----------------------------
-DROP TABLE IF EXISTS `good`;
-CREATE TABLE `good`  (
+DROP TABLE IF EXISTS `t_good`;
+CREATE TABLE `t_good`  (
   `id` int NOT NULL,
   `good_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,

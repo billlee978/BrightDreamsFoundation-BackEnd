@@ -20,8 +20,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for mission_history
 -- ----------------------------
-DROP TABLE IF EXISTS `mission_history`;
-CREATE TABLE `mission_history`  (
+DROP TABLE IF EXISTS `t_mission_history`;
+CREATE TABLE `t_mission_history`  (
   `id` int NOT NULL,
   `user_id` int NULL DEFAULT NULL,
   `mission_id` int NULL DEFAULT NULL,

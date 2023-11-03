@@ -20,8 +20,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for mission
 -- ----------------------------
-DROP TABLE IF EXISTS `mission`;
-CREATE TABLE `mission`  (
+DROP TABLE IF EXISTS `t_mission`;
+CREATE TABLE `t_mission`  (
   `id` int NOT NULL,
   `mission_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,

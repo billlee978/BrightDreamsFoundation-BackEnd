@@ -20,8 +20,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for point_history
 -- ----------------------------
-DROP TABLE IF EXISTS `point_history`;
-CREATE TABLE `point_history`  (
+DROP TABLE IF EXISTS `t_point_history`;
+CREATE TABLE `t_point_history`  (
   `id` int NOT NULL,
   `user_id` int NULL DEFAULT NULL,
   `change` int NULL DEFAULT NULL,
