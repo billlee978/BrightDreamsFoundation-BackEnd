@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pews.brightdreamsfoundation.mapper.MissionMapper">
 
+    <update id="releaseMission" >
+        update t_mission
+        set release_date = NOW(), is_released = 1
+        where id = #{id};
+    </update>
+
 </mapper>
