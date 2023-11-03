@@ -1,9 +1,6 @@
 package com.pews.brightdreamsfoundation.beans;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +16,7 @@ import java.time.LocalDateTime;
 @ToString
 @TableName("`t_mission`")
 public class Mission {
-    @TableId
+    @TableId(type = IdType.AUTO)
     Long id;
     @TableField(value = "MISSION_NAME")
     String missionName;

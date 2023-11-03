@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_mission_history`;
 CREATE TABLE `t_mission_history`  (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NULL DEFAULT NULL,
   `mission_id` int NULL DEFAULT NULL,
   `finish_date` datetime NULL DEFAULT NULL,
