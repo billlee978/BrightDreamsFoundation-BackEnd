@@ -7,5 +7,10 @@
         set release_date = NOW(), is_released = 1
         where id = #{id};
     </update>
+    <select id="selectCompletedHistory" resultType="com.pews.brightdreamsfoundation.beans.Mission">
+        select t_mission.id, mission_name, description, kind, reward, deadline, release_date, is_deleted, picture_url, is_released, target_num
+        from t_mission, t_mission_history
+        where t_mission.id = t_mission_history.mission_id and t_mission_history.user_id = #{id};
+    </select>
 
 </mapper>

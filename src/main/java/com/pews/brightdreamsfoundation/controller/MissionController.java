@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pews.brightdreamsfoundation.beans.Mission;
 import com.pews.brightdreamsfoundation.beans.HttpResponseEntity;
+import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.service.MissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +58,31 @@ public class MissionController {
         LambdaQueryWrapper<Mission> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Mission::getId, id);
         return missionService.remove(wrapper) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
+    }
+
+    /**
+     * 获得用户未完成任务列表
+     * @param id
+     * @return
+     */
+    @GetMapping("get/{id}")
+    public HttpResponseEntity getMissionUncompleted(@PathVariable("id") Long id) {
+        List<Mission> missions = missionService.selectUncompletedMission(id);
+
+        return new HttpResponseEntity(200, missions, "查询成功!");
+
+    }
+
+    /**
+     * 获得用户完成任务历史记录
+     * @param id
+     * @return
+     */
+    @GetMapping("history/{id}")
+    public HttpResponseEntity getMissionCompleted(@PathVariable("id") Long id) {
+        List<Mission> missions = missionService.getCompletedMission(id);
+
+        return new HttpResponseEntity(200, missions, "查询成功!");
+
     }
 }
