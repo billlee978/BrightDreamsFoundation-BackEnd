@@ -24,6 +24,14 @@ public class MissionController {
         IPage<Mission> pageParam = new Page<>(page, limit);
         LambdaQueryWrapper<Mission> wrapper = new LambdaQueryWrapper<>();
         IPage<Mission> iPage = missionService.page(pageParam, wrapper);
+        for (Mission mission : iPage.getRecords()) {
+            switch (mission.getKind()) {
+                case 0:
+                    mission.setKindName("互动任务");
+                case 1:
+                    mission.setKindName("学习任务");
+            }
+        }
 
         return new HttpResponseEntity(200, iPage, "OK!");
     }
