@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pews.brightdreamsfoundation.beans.Mission;
 import com.pews.brightdreamsfoundation.beans.HttpResponseEntity;
+import com.pews.brightdreamsfoundation.beans.MissionHistory;
 import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.service.MissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,4 +86,5 @@ public class MissionController {
         return new HttpResponseEntity(200, missions, "查询成功!");
 
     }
+
 }

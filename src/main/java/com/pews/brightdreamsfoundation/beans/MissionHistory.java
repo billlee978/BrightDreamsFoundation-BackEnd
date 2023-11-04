@@ -1,5 +1,6 @@
 package com.pews.brightdreamsfoundation.beans;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @ToString
 @TableName("`t_mission_history`")
 public class MissionHistory {
-    @TableId
+    @TableId(type = IdType.AUTO)
     Long id;
     @TableField(value = "USER_ID")
     Long userId;
@@ -31,4 +32,10 @@ public class MissionHistory {
     String submissionURL;
     @TableField(value = "STATUS", jdbcType = JdbcType.TINYINT)
     Byte status;
+    @TableField(value = "COMMENT")
+    String comment;
+    @TableField(value = "DESCRIPTION")
+    String description;
+    @TableField(value = "RATE")
+    int rate;
 }

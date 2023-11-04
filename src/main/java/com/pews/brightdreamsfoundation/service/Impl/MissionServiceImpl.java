@@ -58,4 +58,5 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
 
         return uncompletedMissions;
     }
+
 }

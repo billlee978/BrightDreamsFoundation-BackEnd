@@ -42,3 +42,5 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO t_user (username, password, createdate) VALUES("admin", "111111", NOW())
