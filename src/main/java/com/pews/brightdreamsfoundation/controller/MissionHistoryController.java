@@ -6,10 +6,7 @@ import com.pews.brightdreamsfoundation.beans.HttpResponseEntity;
 import com.pews.brightdreamsfoundation.beans.MissionHistory;
 import com.pews.brightdreamsfoundation.service.MissionHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -39,6 +36,38 @@ public class MissionHistoryController {
                 return new HttpResponseEntity(404, null, "提交失败!");
             }
         }
+    }
+
+    /**
+     * 获取该用户的所有任务历史记录
+     * @param id
+     * @return
+     */
+    @GetMapping("get/{id}")
+    public HttpResponseEntity getMissionHistoryByUserId(@PathVariable("id") Long id) {
+        LambdaQueryWrapper<MissionHistory> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(MissionHistory::getUserId, id);
+        List<MissionHistory> histories = missionHistoryService.list(wrapper);
+
+        return new HttpResponseEntity(200, histories, "查询成功!");
+    }
+
+    /**
+     * 获取某条任务历史记录
+     * @param id
+     * @return
+     */
+    @GetMapping("getDetail/{id}")
+    public HttpResponseEntity getMissionHistoryByMissionId(@PathVariable("id") Long id) {
+        LambdaQueryWrapper<MissionHistory> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(MissionHistory::getId, id);
+        List<MissionHistory> histories = missionHistoryService.list(wrapper);
+
+        if (histories.size() == 0) {
+            return new HttpResponseEntity(404, null,"查询失败，该记录不存在!");
+        }
+
+        return new HttpResponseEntity(200, histories.get(0), "查询成功!");
     }
 
 

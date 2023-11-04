@@ -7,5 +7,5 @@ import com.pews.brightdreamsfoundation.service.MissionHistoryService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MissionHistoryImpl extends ServiceImpl<MissionHistoryMapper, MissionHistory> implements MissionHistoryService {
+public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper, MissionHistory> implements MissionHistoryService {
 }
