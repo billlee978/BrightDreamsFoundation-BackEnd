@@ -74,17 +74,4 @@ public class MissionController {
 
     }
 
-    /**
-     * 获得用户完成任务历史记录
-     * @param id
-     * @return
-     */
-    @GetMapping("history/{id}")
-    public HttpResponseEntity getMissionCompleted(@PathVariable("id") Long id) {
-        List<Mission> missions = missionService.getCompletedMission(id);
-
-        return new HttpResponseEntity(200, missions, "查询成功!");
-
-    }
-
 }

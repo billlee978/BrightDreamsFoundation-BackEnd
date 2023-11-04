@@ -38,4 +38,6 @@ public class MissionHistory {
     String description;
     @TableField(value = "RATE")
     int rate;
+    @TableField(exist = false)
+    Mission mission;
 }

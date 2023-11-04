@@ -37,6 +37,5 @@ CREATE TABLE `t_mission_history`  (
 -- ----------------------------
 -- Records of t_mission_history
 -- ----------------------------
-INSERT INTO `t_mission_history` VALUES (1, 17, 1, '2023-11-01 23:06:41', NULL, 1, NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
