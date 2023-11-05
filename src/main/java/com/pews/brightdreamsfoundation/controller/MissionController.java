@@ -9,15 +9,29 @@ import com.pews.brightdreamsfoundation.beans.MissionHistory;
 import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.service.MissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("mission")
 public class MissionController {
     @Autowired
     MissionService missionService;
+
+    @Value("${upload.path}")
+    String filePathName;
+
+    @Value("${server.port}")
+    String port;
 
     @GetMapping("{page}/{limit}")
     public HttpResponseEntity getMissionPage(@PathVariable("page") Long page,
@@ -29,9 +43,17 @@ public class MissionController {
         for (Mission mission : iPage.getRecords()) {
             switch (mission.getKind()) {
                 case 0:
-                    mission.setKindName("互动任务");
+                    mission.setKindName("上传文件任务");
+                    break;
                 case 1:
-                    mission.setKindName("学习任务");
+                    mission.setKindName("上传视频任务");
+                    break;
+                case 2:
+                    mission.setKindName("聊天任务");
+                    break;
+                case 3:
+                    mission.setKindName("视频通话任务");
+                    break;
             }
         }
 
@@ -42,6 +64,19 @@ public class MissionController {
     public HttpResponseEntity saveMission(@RequestBody Mission mission) {
         mission.setId(0L);
         return missionService.save(mission) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
+    }
+
+    @RequestMapping("upload")
+    public HttpResponseEntity uploadFile(MultipartFile file) {
+        try {
+            String[] fileOriginalName = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+            String filename = UUID.randomUUID() + "." + fileOriginalName[fileOriginalName.length - 1];
+            Path filepath = Path.of(filePathName, filename);
+            file.transferTo(filepath);
+            return new HttpResponseEntity(200, "http://" + InetAddress.getLocalHost().getHostAddress() + ":" + port + "/" + filename, "OK");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("batchRemove")

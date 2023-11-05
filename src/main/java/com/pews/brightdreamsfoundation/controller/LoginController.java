@@ -23,7 +23,7 @@ public class LoginController {
         wrapper.eq("USERNAME", user.getUsername().trim());
         wrapper.eq("PASSWORD", user.getPassword().trim());
         List<User> users = userService.list(wrapper);
-        if (users.size() == 0) {
+        if (users.isEmpty()) {
             return new HttpResponseEntity(404, null, "No such user!");
         } else {
             User currentUser = users.get(0);

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.pews</groupId>
     <artifactId>BrightDreamsFoundation</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>BrightDreamsFoundation</name>
     <description>BrightDreamsFoundation</description>
     <properties>

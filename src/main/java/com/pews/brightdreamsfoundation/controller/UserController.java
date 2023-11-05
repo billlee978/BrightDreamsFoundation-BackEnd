@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("userInfo")
 public class UserController {
     @Autowired
     UserServiceImpl userService;
