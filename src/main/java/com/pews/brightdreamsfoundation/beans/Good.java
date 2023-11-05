@@ -28,6 +28,8 @@ public class Good {
     int cost;
     @TableField(value = "PICTURE")
     String picture;
+    @TableField(value = "ON_SALE")
+    boolean onSale;
     @TableLogic(delval = "1")
     byte isDeleted;
 
