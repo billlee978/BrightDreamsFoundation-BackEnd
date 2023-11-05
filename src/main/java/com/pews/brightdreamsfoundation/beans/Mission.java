@@ -42,4 +42,5 @@ public class Mission {
     String pictureURL;
     @TableField(value = "IS_RELEASED", jdbcType = JdbcType.BOOLEAN)
     boolean isReleased;
+
 }

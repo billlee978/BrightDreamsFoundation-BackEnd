@@ -57,7 +57,7 @@ public class MissionHistoryController {
      * @param id
      * @return
      */
-    @GetMapping("getDetail/{id}")
+    @GetMapping("select/{id}")
     public HttpResponseEntity getMissionHistoryByMissionId(@PathVariable("id") Long id) {
         LambdaQueryWrapper<MissionHistory> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(MissionHistory::getId, id);
