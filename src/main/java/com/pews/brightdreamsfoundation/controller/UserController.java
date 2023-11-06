@@ -135,9 +135,9 @@ public class UserController {
     @PostMapping("update")
     public HttpResponseEntity update(@RequestBody User user) {
 
-        boolean flag = userService.updateById(user);
+        boolean flag = userService.updateInfo(user);
         if (flag) {
-            return new HttpResponseEntity(200, null, "修改成功!");
+            return new HttpResponseEntity(200, user, "修改成功!");
         } else {
             return new HttpResponseEntity(404, null, "修改失败!");
         }
