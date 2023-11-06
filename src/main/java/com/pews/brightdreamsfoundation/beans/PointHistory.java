@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("`t_point_history")
+@TableName("t_point_history")
 public class PointHistory {
     @TableId
     Long id;
