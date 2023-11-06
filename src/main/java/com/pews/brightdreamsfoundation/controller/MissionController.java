@@ -1,5 +1,8 @@
 package com.pews.brightdreamsfoundation.controller;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.model.PutObjectRequest;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.file.Path;
@@ -26,12 +30,18 @@ import java.util.UUID;
 public class MissionController {
     @Autowired
     MissionService missionService;
+    @Autowired
+    OSS ossClient;
 
     @Value("${upload.path}")
     String filePathName;
 
-    @Value("${server.port}")
-    String port;
+    @Value("${aliyun.bucketName}")
+    String bucketName;
+    @Value("${aliyun.endpoint}")
+    String endpoint;
+    @Value("${aliyun.area}")
+    String area;
 
     @GetMapping("{page}/{limit}")
     public HttpResponseEntity getMissionPage(@PathVariable("page") Long page,
@@ -70,10 +80,12 @@ public class MissionController {
     public HttpResponseEntity uploadFile(MultipartFile file) {
         try {
             String[] fileOriginalName = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
-            String filename = UUID.randomUUID() + "." + fileOriginalName[fileOriginalName.length - 1];
-            Path filepath = Path.of(filePathName, filename);
-            file.transferTo(filepath);
-            return new HttpResponseEntity(200, "http://" + InetAddress.getLocalHost().getHostAddress() + ":" + port + "/" + filename, "OK");
+            String filename = "img/" + UUID.randomUUID() + "." + fileOriginalName[fileOriginalName.length - 1];
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, filename, file.getInputStream());
+            ossClient.putObject(putObjectRequest);
+            String pictureURL = "https://" + bucketName + "." + area + "/" + filename;
+
+            return new HttpResponseEntity(200, pictureURL, "OK");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
