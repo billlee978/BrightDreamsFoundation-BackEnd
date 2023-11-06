@@ -53,14 +53,35 @@ public class MissionHistoryController {
     }
 
     /**
-     * 获取某条任务历史记录
-     * @param id
+     * 获取某人某条任务的所有历史记录
+     * @param
      * @return
      */
-    @GetMapping("select/{id}")
-    public HttpResponseEntity getMissionHistoryByMissionId(@PathVariable("id") Long id) {
+    @GetMapping("select/{userId}/{missionId}")
+    public HttpResponseEntity getMissionHistoryByMissionId(@PathVariable("userId") Long userId, @PathVariable("missionId") Long missionId) {
         LambdaQueryWrapper<MissionHistory> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(MissionHistory::getId, id);
+        wrapper.eq(MissionHistory::getMissionId, missionId);
+        wrapper.eq(MissionHistory::getUserId, userId);
+        List<MissionHistory> histories = missionHistoryService.list(wrapper);
+
+        if (histories.size() == 0) {
+            return new HttpResponseEntity(404, null,"查询失败，该记录不存在!");
+        }
+
+        return new HttpResponseEntity(200, histories.get(0), "查询成功!");
+    }
+
+    /**
+     * 获取某人某条任务的最新记录
+     * @param
+     * @return
+     */
+    @GetMapping("selectNewest/{userId}/{missionId}")
+    public HttpResponseEntity getNewestMissionHistoryByMissionId(@PathVariable("userId") Long userId, @PathVariable("missionId") Long missionId) {
+        QueryWrapper<MissionHistory> wrapper = new QueryWrapper<>();
+        wrapper.eq("MISSION_ID", missionId);
+        wrapper.eq("USER_ID", userId);
+        wrapper.orderBy(true, false, "FINISH_DATE");
         List<MissionHistory> histories = missionHistoryService.list(wrapper);
 
         if (histories.size() == 0) {

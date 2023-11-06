@@ -32,10 +32,6 @@ public class MissionController {
     MissionService missionService;
     @Autowired
     OSS ossClient;
-
-    @Value("${upload.path}")
-    String filePathName;
-
     @Value("${aliyun.bucketName}")
     String bucketName;
     @Value("${aliyun.endpoint}")
@@ -120,5 +116,19 @@ public class MissionController {
         return new HttpResponseEntity(200, missions, "查询成功!");
 
     }
+
+    /**
+     * 获得用户已完成任务列表
+     * @param id
+     * @return
+     */
+    @GetMapping("getCompleted/{id}")
+    public HttpResponseEntity getMissionCompleted(@PathVariable("id") Long id) {
+        List<Mission> missions = missionService.selectCompletedMission(id);
+
+        return new HttpResponseEntity(200, missions, "查询成功!");
+
+    }
+
 
 }
