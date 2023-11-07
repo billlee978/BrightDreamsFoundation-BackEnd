@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(propagation = Propagation.REQUIRED)
+//@Transactional(propagation = Propagation.REQUIRED)
 public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements GoodService {
     @Autowired
     private GoodMapper goodMapper;
