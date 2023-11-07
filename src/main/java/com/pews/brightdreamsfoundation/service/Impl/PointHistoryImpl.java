@@ -2,6 +2,7 @@ package com.pews.brightdreamsfoundation.service.Impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.*;
+import com.pews.brightdreamsfoundation.mapper.GoodMapper;
 import com.pews.brightdreamsfoundation.mapper.PointHistoryMapper;
 import com.pews.brightdreamsfoundation.service.GoodService;
 import com.pews.brightdreamsfoundation.service.PointHistoryService;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Service
 public class PointHistoryImpl extends ServiceImpl<PointHistoryMapper, PointHistory> implements PointHistoryService {
     @Autowired
-    private GoodService goodService;
+    private GoodMapper goodMapper;
     @Override
     public boolean addPointHistory(User user, Mission mission) {
         PointHistory pointHistory = new PointHistory();
@@ -28,7 +29,7 @@ public class PointHistoryImpl extends ServiceImpl<PointHistoryMapper, PointHisto
 
     @Override
     public boolean addPointHistory(User user, Order order) {
-        Good good = goodService.getById(order.getId());
+        Good good = goodMapper.selectById(order.getGoodId());
         PointHistory pointHistory = new PointHistory();
         pointHistory.setChangeDate(order.getCreateDate());
         pointHistory.setChange(-1 * order.getTotal());
