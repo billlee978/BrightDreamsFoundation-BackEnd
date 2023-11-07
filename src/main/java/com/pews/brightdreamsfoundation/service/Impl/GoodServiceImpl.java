@@ -13,10 +13,11 @@ import com.pews.brightdreamsfoundation.service.PointHistoryService;
 import com.pews.brightdreamsfoundation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements GoodService {
     @Autowired
     private GoodMapper goodMapper;
@@ -36,14 +37,15 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
      * 逻辑3：增加减少积分的记录
      * 逻辑4：创建购买订单
      */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public void buyGoods(Good good, User user, Order order) {
+
         //减少库存并更新数据库
         good.setStock(good.getStock() - order.getAmount());
         goodMapper.updateById(good);
 
         //减少积分并更新数据库
-        user.setPoints(user.getPoints() - (long) order.getAmount() * good.getCost());
+        user.setPoints(user.getPoints() - order.getTotal());
         userService.updateById(user);
 
         //创建购买订单
