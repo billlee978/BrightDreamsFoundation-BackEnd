@@ -109,7 +109,7 @@ public class GoodController {
             }
 
             //检查积分是否足够
-            if (user.getPoints() < (long) good.getCost() * order.getAmount()) {
+            if (user.getPoints() < order.getTotal()) {
                 return new HttpResponseEntity(404, null, "积分不足");
             }
 

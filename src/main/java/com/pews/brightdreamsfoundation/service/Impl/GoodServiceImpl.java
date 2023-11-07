@@ -45,7 +45,7 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
         goodMapper.updateById(good);
 
         //减少积分并更新数据库
-        user.setPoints(user.getPoints() - (long) order.getAmount() * good.getCost());
+        user.setPoints(user.getPoints() - order.getTotal());
         userService.updateById(user);
 
         //创建购买订单
