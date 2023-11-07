@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 04/11/2023 16:17:19
+ Date: 07/11/2023 23:22:40
 */
 
 SET NAMES utf8mb4;
@@ -32,10 +32,6 @@ CREATE TABLE `t_mission_history`  (
   `comment` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `rate` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of t_mission_history
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

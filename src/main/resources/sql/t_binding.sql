@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 02/11/2023 14:52:38
+ Date: 07/11/2023 23:21:59
 */
 
 SET NAMES utf8mb4;
@@ -27,10 +27,6 @@ CREATE TABLE `t_binding`  (
   `VOLUNTEER_ID` int NULL DEFAULT NULL,
   `IS_DELETED` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'This table shows the binding relationship between child and volunteer.' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of t_binding
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'This table shows the binding relationship between child and volunteer.' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

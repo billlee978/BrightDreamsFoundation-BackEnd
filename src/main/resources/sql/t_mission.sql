@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 04/11/2023 17:15:06
+ Date: 07/11/2023 23:22:32
 */
 
 SET NAMES utf8mb4;
@@ -34,10 +34,6 @@ CREATE TABLE `t_mission`  (
   `is_released` bit(1) NULL DEFAULT NULL,
   `target_num` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of t_mission
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

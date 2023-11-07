@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 06/11/2023 21:27:12
+ Date: 07/11/2023 23:22:49
 */
 
 SET NAMES utf8mb4;
@@ -30,6 +30,6 @@ CREATE TABLE `t_order`  (
   `CREATEDATE` datetime NULL DEFAULT NULL,
   `IS_DELETED` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
