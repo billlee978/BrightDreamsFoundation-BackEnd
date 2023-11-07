@@ -1,5 +1,6 @@
 package com.pews.brightdreamsfoundation.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.Mission;
@@ -47,6 +48,7 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
         return userService.updateById(user);
 
     }
+
 
     @Override
     public List<Mission> selectUncompletedMission(Long id) {

@@ -17,6 +17,8 @@ import com.pews.brightdreamsfoundation.service.PointHistoryService;
 import com.pews.brightdreamsfoundation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,7 +50,9 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
         return histories;
     }
 
+
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean judgeStudyMission(Long id, Byte result) {
         LambdaUpdateWrapper<MissionHistory> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(MissionHistory::getId, id);
@@ -60,9 +64,7 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
             if (result == 1) {
                 return missionService.reward(history.getUserId(), history.getMission());
             }
-
             return true;
-
         } else {
             return false;
         }
