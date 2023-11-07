@@ -62,7 +62,7 @@ public class GoodController {
         LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
 
         //模糊查询
-        wrapper.like(Good::getGoodName, keywords).or().like(Good::getDescription, keywords);
+        wrapper.eq(Good::isOnSale, 1).like(Good::getGoodName, keywords).or().like(Good::getDescription, keywords);
         List<Good> goodList = goodService.list(wrapper);
         if (goodList.size() == 0) {
             return new HttpResponseEntity(404, null, "暂无该商品");
@@ -124,16 +124,4 @@ public class GoodController {
             buyLock.unlock();
         }
     }
-
-
-    /**
-     * 返回某一商品的库存数量
-     */
-    public Integer getGoodStock(Good good) {
-        LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Good::getGoodName, good.getGoodName());
-        List<Good> goodList = goodService.list(wrapper);
-        return goodList.size();
-    }
-
 }
