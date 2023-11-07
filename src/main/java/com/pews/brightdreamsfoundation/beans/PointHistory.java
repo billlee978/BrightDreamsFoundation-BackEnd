@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @TableName("`t_point_history`")
-public class PointHistory implements Serializable {
+public class PointHistory{
     @TableId(type = IdType.AUTO)
     Long id;
     @TableField(value = "USER_ID")
