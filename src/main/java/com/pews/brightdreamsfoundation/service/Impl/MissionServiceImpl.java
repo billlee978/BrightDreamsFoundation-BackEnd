@@ -1,10 +1,8 @@
 package com.pews.brightdreamsfoundation.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.Mission;
-import com.pews.brightdreamsfoundation.beans.MissionHistory;
 import com.pews.brightdreamsfoundation.mapper.MissionHistoryMapper;
 import com.pews.brightdreamsfoundation.mapper.MissionMapper;
 import com.pews.brightdreamsfoundation.service.MissionService;
@@ -28,8 +26,8 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
     }
 
     @Override
-    public List<Mission> getCompletedMission(Long id) {
-        return missionMapper.selectCompletedHistory(id);
+    public List<Mission> selectCompletedMission(Long id) {
+        return missionMapper.selectCompletedMission(id);
     }
 
     @Override
@@ -40,7 +38,7 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
         wrapper.gt("DEADLINE", date.getTime());
 
         List<Mission> missions = missionMapper.selectList(wrapper);
-        List<Mission> completedMissions = getCompletedMission(id);
+        List<Mission> completedMissions = selectCompletedMission(id);
         List<Mission> uncompletedMissions = new ArrayList<>();
 
         for(Mission mission : missions) {

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("`t_interaction")
+@TableName("`t_interaction`")
 public class Interaction {
     @TableId
     Long id;

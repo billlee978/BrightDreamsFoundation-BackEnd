@@ -30,7 +30,7 @@ public class MissionHistory {
     LocalDateTime finishDate;
     @TableField(value = "SUBMISSION_URL")
     String submissionURL;
-    @TableField(value = "STATUS", jdbcType = JdbcType.TINYINT)
+    @TableField(value = "STATUS", jdbcType = JdbcType.TINYINT) // 0: 审核 1:通过 2:拒绝
     Byte status;
     @TableField(value = "COMMENT")
     String comment;

@@ -89,4 +89,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return 0;
         }
     }
+
+    @Override
+    public boolean updateInfo(User user) {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("USERNAME",user.getUsername());
+        List<User> users = userMapper.selectList(wrapper);
+        if (users.size() >= 1) {
+            return false;
+        }else {
+            userMapper.updateById(user);
+            return true;
+        }
+    }
 }

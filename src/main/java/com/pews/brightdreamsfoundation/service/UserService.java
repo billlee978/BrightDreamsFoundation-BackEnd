@@ -15,4 +15,6 @@ public interface UserService extends IService<User> {
     int unbind(Long id, List<Long> idList, Boolean isChildUnbind);
 
     int register(User user);
+
+    boolean updateInfo(User user);
 }
