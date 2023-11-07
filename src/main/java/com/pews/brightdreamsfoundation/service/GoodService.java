@@ -4,4 +4,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pews.brightdreamsfoundation.beans.Good;
 
 public interface GoodService extends IService<Good> {
+    void buyGoods(Good good);
 }
