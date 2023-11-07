@@ -24,21 +24,14 @@ public class MissionHistoryController {
 
     @PostMapping("submit")
     public HttpResponseEntity submit(@RequestBody MissionHistory history) {
-        LambdaQueryWrapper<MissionHistory> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(MissionHistory::getMissionId, history.getMissionId())
-                .eq(MissionHistory::getUserId, history.getUserId());
-        List<MissionHistory> repeat = missionHistoryService.list(wrapper);
-        if (repeat.size() > 0) {
-            return new HttpResponseEntity(404, null, "你已经提交过该任务了！");
+
+        boolean flag = missionHistoryService.submit(history);
+        if (flag) {
+            return new HttpResponseEntity(200, null, "成功提交!");
         } else {
-            history.setFinishDate(LocalDateTime.now());
-            boolean flag = missionHistoryService.save(history);
-            if (flag) {
-                return new HttpResponseEntity(200, null, "成功提交!");
-            } else {
-                return new HttpResponseEntity(404, null, "提交失败!");
-            }
+            return new HttpResponseEntity(404, null, "提交失败,你已经提交过这个任务了!");
         }
+
     }
 
     /**
@@ -101,11 +94,7 @@ public class MissionHistoryController {
      */
     @PutMapping("{id}/{result}")
     public HttpResponseEntity judgeSubmission(@PathVariable("id") Long id, @PathVariable("result") Byte result) {
-        LambdaUpdateWrapper<MissionHistory> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.eq(MissionHistory::getId, id);
-        MissionHistory history = missionHistoryService.list(wrapper).get(0);
-        history.setStatus(result);
-        boolean flag = missionHistoryService.updateById(history);
+        boolean flag = missionHistoryService.judgeMission(id, result);
         if (flag) {
             // 开始发放奖品
             return new HttpResponseEntity(404, null, "修改成功!");
