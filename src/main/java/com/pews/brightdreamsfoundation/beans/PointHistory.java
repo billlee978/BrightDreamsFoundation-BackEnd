@@ -1,5 +1,6 @@
 package com.pews.brightdreamsfoundation.beans;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,9 +17,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("t_point_history")
+@TableName("`t_point_history`")
 public class PointHistory {
-    @TableId
+    @TableId(type = IdType.AUTO)
     Long id;
     @TableField(value = "USER_ID")
     Long userId;

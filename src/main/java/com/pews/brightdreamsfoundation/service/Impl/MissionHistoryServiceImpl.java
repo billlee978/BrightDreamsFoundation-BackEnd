@@ -8,10 +8,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.Mission;
 import com.pews.brightdreamsfoundation.beans.MissionHistory;
+import com.pews.brightdreamsfoundation.beans.PointHistory;
 import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.mapper.MissionHistoryMapper;
 import com.pews.brightdreamsfoundation.service.MissionHistoryService;
 import com.pews.brightdreamsfoundation.service.MissionService;
+import com.pews.brightdreamsfoundation.service.PointHistoryService;
 import com.pews.brightdreamsfoundation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
     @Autowired
     UserService userService;
 
+    @Autowired
+    PointHistoryService pointHistoryService;
+
     @Override
     public List<MissionHistory> list(Wrapper<MissionHistory> queryWrapper) {
         List<MissionHistory> histories = super.list(queryWrapper);
@@ -44,7 +49,7 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
     }
 
     @Override
-    public boolean judgeMission(Long id, Byte result) {
+    public boolean judgeStudyMission(Long id, Byte result) {
         LambdaUpdateWrapper<MissionHistory> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(MissionHistory::getId, id);
         MissionHistory history = list(wrapper).get(0);
@@ -53,11 +58,7 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
         if (flag) {
             // 发放奖品
             if (result == 1) {
-                LambdaQueryWrapper<User> userWrapper = new LambdaQueryWrapper<>();
-                userWrapper.eq(User::getId, history.getUserId());
-                User user = userService.list(userWrapper).get(0);
-                user.setPoints(user.getPoints() + history.getMission().getReward());
-                userService.updateById(user);
+                return missionService.reward(history.getUserId(), history.getMission());
             }
 
             return true;
