@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
@@ -23,7 +24,9 @@ public class GoodController {
     @Autowired
     private UserService userService;
 
-    private final ReentrantLock buyLock = new ReentrantLock();
+    //创建商品锁，每个商品id对应一个锁
+    private final ConcurrentHashMap<Long, ReentrantLock> goodLocks = new ConcurrentHashMap<>();
+
 
     /**
      * 获取所有商品
@@ -74,15 +77,18 @@ public class GoodController {
     /**
      * 兑换商品
      * <p>
-     * 当有一个线程进入时，会上锁，此时如果有其他线程进入，将阻塞该线程，直到上一线程执行完毕释放解锁
+     * 不同商品之间可以并发处理，同一商品的购买请求会被锁定
      */
 
     @PostMapping("buy")
     public HttpResponseEntity buyGoods(@RequestBody Order order) {
+        Long goodId = order.getGoodId();
+        //根据商品id来创建对应的商品锁
+        ReentrantLock goodLock = goodLocks.computeIfAbsent(goodId, k -> new ReentrantLock());
 
         try {
             //上锁
-            buyLock.lock();
+            goodLock.lock();
 
             LambdaQueryWrapper<Good> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Good::getId, order.getGoodId());
@@ -104,7 +110,7 @@ public class GoodController {
             if (good.getStock() <= 0) {
                 return new HttpResponseEntity(404, null, "商品已售罄");
             }
-            if (good.getStock() - order.getAmount() <= 0) {
+            if (good.getStock() - order.getAmount() < 0) {
                 return new HttpResponseEntity(404, null, "商品不足");
             }
 
@@ -121,7 +127,7 @@ public class GoodController {
             }
         } finally {
             //解锁
-            buyLock.unlock();
+            goodLock.unlock();
         }
     }
 }
