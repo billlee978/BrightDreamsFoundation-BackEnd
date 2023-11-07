@@ -130,6 +130,22 @@ public class MissionController {
 
     }
 
+    /**
+     * 根据任务id获取任务信息
+     * @param id
+     * @return
+     */
+    @GetMapping("getById/{id}")
+    public HttpResponseEntity getMissionById(@PathVariable("id") Long id) {
+        Mission mission = missionService.getById(id);
+        if (mission == null) {
+            return new HttpResponseEntity(404, null, "查询失败!");
+        } else {
+            return new HttpResponseEntity(200, mission, "查询成功!");
+        }
+
+    }
+
 
 
 
