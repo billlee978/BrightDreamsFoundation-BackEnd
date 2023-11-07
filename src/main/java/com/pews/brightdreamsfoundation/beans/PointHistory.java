@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.ibatis.type.JdbcType;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,12 +19,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @TableName("`t_point_history`")
-public class PointHistory {
+public class PointHistory implements Serializable {
     @TableId(type = IdType.AUTO)
     Long id;
     @TableField(value = "USER_ID")
     Long userId;
-    @TableField(value = "CHANGE", jdbcType = JdbcType.BIGINT)
+    @TableField(value = "`CHANGE`", jdbcType = JdbcType.BIGINT)
     Long change;
     @TableField(value = "DESCRIPTION")
     String description;

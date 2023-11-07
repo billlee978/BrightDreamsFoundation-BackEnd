@@ -91,7 +91,7 @@ public class MissionHistoryController {
     public HttpResponseEntity judgeSubmission(@PathVariable("id") Long id, @PathVariable("result") Byte result) {
         boolean flag = missionHistoryService.judgeStudyMission(id, result);
         if (flag) {
-            return new HttpResponseEntity(404, null, "修改成功!");
+            return new HttpResponseEntity(200, null, "修改成功!");
         } else {
             return new HttpResponseEntity(404, null, "修改失败!");
         }

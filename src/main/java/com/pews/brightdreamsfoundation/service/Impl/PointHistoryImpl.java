@@ -20,8 +20,9 @@ public class PointHistoryImpl extends ServiceImpl<PointHistoryMapper, PointHisto
         pointHistory.setChangeDate(LocalDateTime.now());
         pointHistory.setChange((long) mission.getReward());
         pointHistory.setUserId(user.getId());
-        String description = "完成任务" + mission.getMissionName() + "获得积分奖励" + mission.getReward() + "分";
+        String description = "完成任务\"" + mission.getMissionName() + "\" 奖励积分" + mission.getReward() + "分";
         pointHistory.setDescription(description);
+
         return save(pointHistory);
     }
 
