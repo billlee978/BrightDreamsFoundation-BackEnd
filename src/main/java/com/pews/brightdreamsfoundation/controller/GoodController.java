@@ -3,6 +3,8 @@ package com.pews.brightdreamsfoundation.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pews.brightdreamsfoundation.beans.Good;
 import com.pews.brightdreamsfoundation.beans.HttpResponseEntity;
+import com.pews.brightdreamsfoundation.beans.Order;
+import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +72,7 @@ public class GoodController {
      */
 
     @PostMapping("buy")
-    public HttpResponseEntity buyGoods(@RequestBody Good good) {
+    public HttpResponseEntity buyGoods(@RequestBody Good good,@RequestBody User user,@RequestBody Order order) {
 
         try {
             //上锁
@@ -89,10 +91,13 @@ public class GoodController {
                 return new HttpResponseEntity(404, null, "商品已售罄");
             }
 
-            //购买商品
-            goodService.buyGoods(dbGood);
-
-            return new HttpResponseEntity(200, null, "购买成功");
+            try{
+                goodService.buyGoods(dbGood,user,order);
+                return new HttpResponseEntity(200, null, "购买成功");
+            }catch (Exception e){
+                return new HttpResponseEntity(404, null, "购买失败");
+                //这里可以进一步优化响应，可以返回是因为什么导致购买失败
+            }
         } finally {
             //解锁
             buyLock.unlock();

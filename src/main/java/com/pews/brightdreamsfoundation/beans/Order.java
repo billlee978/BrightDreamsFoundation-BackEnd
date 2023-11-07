@@ -23,7 +23,7 @@ public class Order {
     @TableField(value = "GOOD_ID")
     Long goodId;
     @TableField(value = "AMOUNT")
-    Long amount;
+    Integer amount;
     @TableField(value = "TOTAL")
     Long total;
     @TableField(value = "CREATEDATE")
