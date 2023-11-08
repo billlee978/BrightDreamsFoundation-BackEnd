@@ -52,40 +52,21 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
 
     @Override
     public List<Mission> searchCompleted(String keywords, Long id) {
+        keywords = "%" + keywords + "%";
         return missionMapper.searchCompletedMission(keywords, id);
     }
 
     @Override
     public List<Mission> searchUncompleted(String keywords, Long id) {
+        keywords = "%" + keywords + "%";
         return null;
     }
 
 
     @Override
     public List<Mission> selectUncompletedMission(Long id) {
-        QueryWrapper<Mission> wrapper = new QueryWrapper<>();
-        wrapper.eq("IS_RELEASED", 1);
-        wrapper.gt("DEADLINE", LocalDateTime.now());
-        wrapper.le("RELEASE_DATE", LocalDateTime.now());
-
-        List<Mission> missions = missionMapper.selectList(wrapper);
-        List<Mission> completedMissions = selectCompletedMission(id);
-        List<Mission> uncompletedMissions = new ArrayList<>();
-
-        for(Mission mission : missions) {
-            boolean flag = true;
-            for (Mission completedOne : completedMissions) {
-                if (Objects.equals(mission.getId(), completedOne.getId())) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                uncompletedMissions.add(mission);
-            }
-        }
-
-        return uncompletedMissions;
+        List<Mission> missions = missionMapper.selectUncompletedMission(id);
+        return missions;
     }
 
 }
