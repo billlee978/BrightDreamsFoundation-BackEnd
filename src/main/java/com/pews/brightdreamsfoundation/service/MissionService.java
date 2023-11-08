@@ -14,4 +14,8 @@ public interface MissionService extends IService<Mission> {
     List<Mission> selectCompletedMission(Long id);
 
     boolean reward(Long userId, Mission mission);
+
+    List<Mission> searchCompleted(String keywords, Long id);
+
+    List<Mission> searchUncompleted(String keywords, Long id);
 }

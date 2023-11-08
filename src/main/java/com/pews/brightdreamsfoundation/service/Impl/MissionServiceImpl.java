@@ -14,6 +14,7 @@ import com.pews.brightdreamsfoundation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,13 +50,23 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
 
     }
 
+    @Override
+    public List<Mission> searchCompleted(String keywords, Long id) {
+        return missionMapper.searchCompletedMission(keywords, id);
+    }
+
+    @Override
+    public List<Mission> searchUncompleted(String keywords, Long id) {
+        return null;
+    }
+
 
     @Override
     public List<Mission> selectUncompletedMission(Long id) {
-        Date date = new Date();
         QueryWrapper<Mission> wrapper = new QueryWrapper<>();
         wrapper.eq("IS_RELEASED", 1);
-        wrapper.gt("DEADLINE", date.getTime());
+        wrapper.gt("DEADLINE", LocalDateTime.now());
+        wrapper.le("RELEASE_DATE", LocalDateTime.now());
 
         List<Mission> missions = missionMapper.selectList(wrapper);
         List<Mission> completedMissions = selectCompletedMission(id);
