@@ -148,6 +148,35 @@ public class MissionController {
     }
 
 
+    /**
+     * 根据关键词搜索未完成任务
+     * @param keywords
+     * @param id
+     * @return
+     */
+    @PostMapping("searchUncompleted/{id}")
+    public HttpResponseEntity searchUncompleted(String keywords, @PathVariable("id") Long id) {
+        List<Mission> missions = missionService.searchUncompleted(keywords, id);
+        return new HttpResponseEntity(200, missions, "查询成功!");
+
+
+    }
+
+    /**
+     * 根据关键词搜索已完成任务
+     * @param keywords
+     * @param id
+     * @return
+     */
+    @PostMapping("searchCompleted/{id}")
+    public HttpResponseEntity searchCompleted(String keywords, @PathVariable("id") Long id) {
+        List<Mission> missions = missionService.searchCompleted(keywords, id);
+
+        return new HttpResponseEntity(200, missions, "查询成功!");
+
+    }
+
+
 
 
 }

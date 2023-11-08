@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
-
 @RestController
 @RequestMapping("good")
 public class GoodController {
@@ -36,24 +34,55 @@ public class GoodController {
         LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
         List<Good> goodList = goodService.list(wrapper);
         if (goodList.size() == 0) {
-            return new HttpResponseEntity(404, null, "暂无可上架的商品");
+            return new HttpResponseEntity(404, null, "暂无商品");
         } else {
             return new HttpResponseEntity(200, goodList, "查询成功");
         }
     }
 
     /**
-     * 获取可以上架的商品
+     * 根据热度获取所有可上架商品
      */
-    @PostMapping("enable")
-    public HttpResponseEntity getEnableGoods() {
-        LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Good::isOnSale, 1);
-        List<Good> goodList = goodService.list(wrapper);
+    @PostMapping("sortByPopularity")
+    public HttpResponseEntity sortGoodByPurchaseCount() {
+        List<Good> goodList = goodService.sortGoods();
         if (goodList.size() == 0) {
-            return new HttpResponseEntity(404, null, "暂无可上架的商品");
+            return new HttpResponseEntity(404, null, "暂无商品");
         } else {
             return new HttpResponseEntity(200, goodList, "查询成功");
+        }
+    }
+
+    /**
+     * 根据积分获取所有可上架商品
+     */
+    @PostMapping("sortByCost{type}")
+    public HttpResponseEntity sortGoodsByCost(@PathVariable Integer type) {
+
+        if (type == 0) {
+            //从小到大排序
+            LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
+            wrapper.orderByAsc(Good::getCost);
+            List<Good> goodList = goodService.list(wrapper);
+            if(goodList.size()==0){
+                return new HttpResponseEntity(404,null,"暂无商品");
+            }
+            else{
+                return new HttpResponseEntity(200,goodList,"查询成功");
+            }
+        } else if (type == 1) {
+            //从大到小排序
+            LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
+            wrapper.orderByDesc(Good::getCost);
+            List<Good> goodList = goodService.list(wrapper);
+            if(goodList.size()==0){
+                return new HttpResponseEntity(404,null,"暂无商品");
+            }
+            else{
+                return new HttpResponseEntity(200,goodList,"查询成功");
+            }
+        }else{
+            return new HttpResponseEntity(404,null,"参数有误");
         }
     }
 
@@ -130,4 +159,6 @@ public class GoodController {
             goodLock.unlock();
         }
     }
+
+
 }

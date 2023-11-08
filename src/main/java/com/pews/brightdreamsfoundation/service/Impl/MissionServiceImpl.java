@@ -14,6 +14,7 @@ import com.pews.brightdreamsfoundation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,32 +50,23 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
 
     }
 
+    @Override
+    public List<Mission> searchCompleted(String keywords, Long id) {
+        keywords = "%" + keywords + "%";
+        return missionMapper.searchCompletedMission(keywords, id);
+    }
+
+    @Override
+    public List<Mission> searchUncompleted(String keywords, Long id) {
+        keywords = "%" + keywords + "%";
+        return missionMapper.searchUncompletedMission(keywords, id);
+    }
+
 
     @Override
     public List<Mission> selectUncompletedMission(Long id) {
-        Date date = new Date();
-        QueryWrapper<Mission> wrapper = new QueryWrapper<>();
-        wrapper.eq("IS_RELEASED", 1);
-        wrapper.gt("DEADLINE", date.getTime());
-
-        List<Mission> missions = missionMapper.selectList(wrapper);
-        List<Mission> completedMissions = selectCompletedMission(id);
-        List<Mission> uncompletedMissions = new ArrayList<>();
-
-        for(Mission mission : missions) {
-            boolean flag = true;
-            for (Mission completedOne : completedMissions) {
-                if (Objects.equals(mission.getId(), completedOne.getId())) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                uncompletedMissions.add(mission);
-            }
-        }
-
-        return uncompletedMissions;
+        List<Mission> missions = missionMapper.selectUncompletedMission(id);
+        return missions;
     }
 
 }

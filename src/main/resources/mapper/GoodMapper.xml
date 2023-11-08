@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pews.brightdreamsfoundation.mapper.GoodMapper">
-
+    <select id="sortGoods" resultType="com.pews.brightdreamsfoundation.beans.Good">
+        SELECT
+            g.id,
+            g.good_name,
+            g.description,
+            g.stock,
+            g.cost,
+            g.picture,
+            g.is_deleted,
+            g.on_sale,
+            COUNT(o.good_id) AS purchase_count
+        FROM
+            t_good g
+                LEFT JOIN
+            t_order o
+            ON
+                g.id = o.good_id
+        WHERE
+            g.is_deleted = 0 AND g.on_sale = 1
+        GROUP BY
+            g.id, g.good_name, g.description, g.stock, g.cost, g.picture, g.is_deleted, g.on_sale
+        ORDER BY
+            purchase_count DESC;
+    </select>
 </mapper>

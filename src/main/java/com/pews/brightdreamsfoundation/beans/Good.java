@@ -1,10 +1,7 @@
 package com.pews.brightdreamsfoundation.beans;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +13,7 @@ import lombok.ToString;
 @ToString
 @TableName("`t_good`")
 public class Good {
-    @TableId
+    @TableId(type = IdType.AUTO)
     Long id;
     @TableField(value = "GOOD_NAME")
     String goodName;

@@ -11,4 +11,9 @@ public interface MissionMapper extends BaseMapper<Mission> {
     int releaseMission(Long id);
 
     List<Mission> selectCompletedMission(Long id);
+    List<Mission> selectUncompletedMission(Long id);
+
+    List<Mission> searchCompletedMission(String keywords, Long id);
+
+    List<Mission> searchUncompletedMission(String keywords, Long id);
 }

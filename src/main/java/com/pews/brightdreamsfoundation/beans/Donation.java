@@ -1,5 +1,6 @@
 package com.pews.brightdreamsfoundation.beans;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @ToString
 @TableName("`t_donation`")
 public class Donation {
-    @TableId
+    @TableId(type = IdType.AUTO)
     Long id;
     @TableField("DONATION_ID")
     String donationId;
