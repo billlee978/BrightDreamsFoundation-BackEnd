@@ -59,7 +59,7 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
     @Override
     public List<Mission> searchUncompleted(String keywords, Long id) {
         keywords = "%" + keywords + "%";
-        return null;
+        return missionMapper.searchUncompletedMission(keywords, id);
     }
 
 
