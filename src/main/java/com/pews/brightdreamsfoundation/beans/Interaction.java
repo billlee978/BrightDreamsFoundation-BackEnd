@@ -26,7 +26,7 @@ public class Interaction {
     Long childrenId;
     @TableField(value = "VOLUNTEER_ID")
     Long volunteerId;
-    @TableField(value = "TYPE", jdbcType = JdbcType.TINYINT)
+    @TableField(value = "TYPE", jdbcType = JdbcType.TINYINT) // 2: 发送消息 3: 视频通话
     byte type;
     @TableField(value = "INTERACT_TIME")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

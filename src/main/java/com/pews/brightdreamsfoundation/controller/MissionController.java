@@ -177,6 +177,20 @@ public class MissionController {
     }
 
 
+    @GetMapping("check/{id}")
+    public HttpResponseEntity checkMissionReached(@PathVariable("id") Long id) {
+        List<Mission> missionReached = missionService.checkMissions(id);
+
+        if (missionReached.size() > 0) {
+            return new HttpResponseEntity(200, missionReached, "完成任务!");
+        } else {
+            return new HttpResponseEntity(200, missionReached, "没有新完成任务!");
+        }
+
+    }
+
+
+
 
 
 }

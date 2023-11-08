@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pews.brightdreamsfoundation.mapper.InteractionMapper">
+
+    <select id="getExtentVideoTime" resultType="java.lang.Long">
+        select SUM(AMOUNT) from t_interaction where INTERACT_TIME > #{start} and #{end} > INTERACT_TIME and type = 3 and CHILDREN_ID = #{id};
+    </select>
+    <select id="getExtentTextTime" resultType="java.lang.Long">
+        select SUM(AMOUNT) from t_interaction where INTERACT_TIME > #{start} and #{end} > INTERACT_TIME and type = 2 and CHILDREN_ID = #{id};
+    </select>
+</mapper>

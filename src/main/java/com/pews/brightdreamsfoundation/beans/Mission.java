@@ -22,7 +22,7 @@ public class Mission {
     String missionName;
     @TableField(value = "DESCRIPTION")
     String description;
-    @TableField(value = "KIND", jdbcType = JdbcType.TINYINT)
+    @TableField(value = "KIND", jdbcType = JdbcType.TINYINT) // 0:上传文件任务 1:上传视频任务 2:聊天任务 3:视频通话任务
     byte kind;
     @TableField(exist = false)
     String kindName;
