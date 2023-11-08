@@ -1,10 +1,7 @@
 package com.pews.brightdreamsfoundation.service.Impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pews.brightdreamsfoundation.beans.Good;
-import com.pews.brightdreamsfoundation.beans.MissionHistory;
-import com.pews.brightdreamsfoundation.beans.Order;
-import com.pews.brightdreamsfoundation.beans.User;
+import com.pews.brightdreamsfoundation.beans.*;
 import com.pews.brightdreamsfoundation.mapper.GoodMapper;
 import com.pews.brightdreamsfoundation.mapper.MissionHistoryMapper;
 import com.pews.brightdreamsfoundation.service.GoodService;
@@ -15,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 //@Transactional(propagation = Propagation.REQUIRED)
@@ -53,5 +52,9 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
 
         //增加减少积分的记录
         pointHistoryService.addPointHistory(user, order);
+    }
+
+    public List<Good> sortGoods(){
+        return goodMapper.sortGoods();
     }
 }
