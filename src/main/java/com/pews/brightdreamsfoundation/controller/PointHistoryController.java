@@ -25,7 +25,7 @@ public class PointHistoryController {
         return new HttpResponseEntity(200, histories, "查询成功!");
     }
 
-    @PostMapping("{id}")
+    @PostMapping("")
     public HttpResponseEntity addHistory(@RequestBody PointHistory pointHistory) {
         pointHistory.setChangeDate(LocalDateTime.now());
         boolean flag = pointHistoryService.save(pointHistory);

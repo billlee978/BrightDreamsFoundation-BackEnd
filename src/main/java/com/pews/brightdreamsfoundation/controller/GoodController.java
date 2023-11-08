@@ -1,10 +1,133 @@
 package com.pews.brightdreamsfoundation.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.pews.brightdreamsfoundation.beans.Good;
+import com.pews.brightdreamsfoundation.beans.HttpResponseEntity;
+import com.pews.brightdreamsfoundation.beans.Order;
+import com.pews.brightdreamsfoundation.beans.User;
+import com.pews.brightdreamsfoundation.service.GoodService;
+import com.pews.brightdreamsfoundation.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 @RestController
 @RequestMapping("good")
 public class GoodController {
+    @Autowired
+    private GoodService goodService;
+    @Autowired
+    private UserService userService;
 
+    //创建商品锁，每个商品id对应一个锁
+    private final ConcurrentHashMap<Long, ReentrantLock> goodLocks = new ConcurrentHashMap<>();
+
+
+    /**
+     * 获取所有商品
+     */
+    @GetMapping
+    public HttpResponseEntity getAllGoods() {
+        LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
+        List<Good> goodList = goodService.list(wrapper);
+        if (goodList.size() == 0) {
+            return new HttpResponseEntity(404, null, "暂无可上架的商品");
+        } else {
+            return new HttpResponseEntity(200, goodList, "查询成功");
+        }
+    }
+
+    /**
+     * 获取可以上架的商品
+     */
+    @PostMapping("enable")
+    public HttpResponseEntity getEnableGoods() {
+        LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Good::isOnSale, 1);
+        List<Good> goodList = goodService.list(wrapper);
+        if (goodList.size() == 0) {
+            return new HttpResponseEntity(404, null, "暂无可上架的商品");
+        } else {
+            return new HttpResponseEntity(200, goodList, "查询成功");
+        }
+    }
+
+    /**
+     * 搜索商品（支持模糊搜索）
+     */
+    @PostMapping("search")
+    public HttpResponseEntity searchGoods(String keywords) {
+        LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
+
+        //模糊查询
+        wrapper.eq(Good::isOnSale, 1).like(Good::getGoodName, keywords).or().like(Good::getDescription, keywords);
+        List<Good> goodList = goodService.list(wrapper);
+        if (goodList.size() == 0) {
+            return new HttpResponseEntity(404, null, "暂无该商品");
+        } else {
+            return new HttpResponseEntity(200, goodList, "查询成功");
+        }
+    }
+
+    /**
+     * 兑换商品
+     * <p>
+     * 不同商品之间可以并发处理，同一商品的购买请求会被锁定
+     */
+
+    @PostMapping("buy")
+    public HttpResponseEntity buyGoods(@RequestBody Order order) {
+        Long goodId = order.getGoodId();
+        //根据商品id来创建对应的商品锁
+        ReentrantLock goodLock = goodLocks.computeIfAbsent(goodId, k -> new ReentrantLock());
+
+        try {
+            //上锁
+            goodLock.lock();
+
+            LambdaQueryWrapper<Good> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Good::getId, order.getGoodId());
+            Good good = goodService.getOne(queryWrapper);
+
+            LambdaQueryWrapper<User> queryWrapper1 = new LambdaQueryWrapper<>();
+            queryWrapper1.eq(User::getId, order.getUserId());
+            User user = userService.getOne(queryWrapper1);
+
+            if (good == null) {
+                return new HttpResponseEntity(404, null, "商品不存在");
+            }
+
+            if (user == null) {
+                return new HttpResponseEntity(404, null, "用户不存在");
+            }
+
+            //检查库存
+            if (good.getStock() <= 0) {
+                return new HttpResponseEntity(404, null, "商品已售罄");
+            }
+            if (good.getStock() - order.getAmount() < 0) {
+                return new HttpResponseEntity(404, null, "商品不足");
+            }
+
+            //检查积分是否足够
+            if (user.getPoints() < order.getTotal()) {
+                return new HttpResponseEntity(404, null, "积分不足");
+            }
+
+            try {
+                goodService.buyGoods(good, user, order);
+                return new HttpResponseEntity(200, null, "购买成功");
+            } catch (Exception e) {
+                return new HttpResponseEntity(404, null, "购买失败");
+            }
+        } finally {
+            //解锁
+            goodLock.unlock();
+        }
+    }
 }

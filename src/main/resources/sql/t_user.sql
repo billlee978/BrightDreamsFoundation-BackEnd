@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 02/11/2023 19:09:42
+ Date: 07/11/2023 23:23:23
 */
 
 SET NAMES utf8mb4;
@@ -35,12 +35,8 @@ CREATE TABLE `t_user`  (
   `IS_DELETED` tinyint NULL DEFAULT 0 COMMENT '0 represents not deleted, 1 represents deleted logically.',
   `POINTS` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'This table contains the basic information of all users.' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of t_user
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'This table contains the basic information of all users.' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO t_user (username, password, createdate,ROLE) VALUES("admin", "111111", NOW(), 0)
+INSERT INTO t_user (username, password, createdate,ROLE) VALUES("admin", "111111", NOW(), 0);

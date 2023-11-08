@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 03/11/2023 15:10:25
+ Date: 07/11/2023 23:22:24
 */
 
 SET NAMES utf8mb4;
@@ -32,9 +32,5 @@ CREATE TABLE `t_interaction`  (
   `PICTURE_URL` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of t_interaction
--- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

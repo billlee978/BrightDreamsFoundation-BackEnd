@@ -1,5 +1,6 @@
 package com.pews.brightdreamsfoundation.beans;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -10,19 +11,20 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.ibatis.type.JdbcType;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("t_point_history")
-public class PointHistory {
-    @TableId
+@TableName("`t_point_history`")
+public class PointHistory{
+    @TableId(type = IdType.AUTO)
     Long id;
     @TableField(value = "USER_ID")
     Long userId;
-    @TableField(value = "CHANGE", jdbcType = JdbcType.BIGINT)
+    @TableField(value = "`CHANGE`", jdbcType = JdbcType.BIGINT)
     Long change;
     @TableField(value = "DESCRIPTION")
     String description;
