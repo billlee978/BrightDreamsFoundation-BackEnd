@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.Mission;
+import com.pews.brightdreamsfoundation.beans.MissionHistory;
 import com.pews.brightdreamsfoundation.beans.PointHistory;
 import com.pews.brightdreamsfoundation.beans.User;
+import com.pews.brightdreamsfoundation.mapper.InteractionMapper;
 import com.pews.brightdreamsfoundation.mapper.MissionHistoryMapper;
 import com.pews.brightdreamsfoundation.mapper.MissionMapper;
 import com.pews.brightdreamsfoundation.service.MissionService;
@@ -30,6 +32,9 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
     PointHistoryService pointHistoryService;
     @Autowired
     UserService userService;
+
+    @Autowired
+    InteractionMapper interactionMapper;
 
     @Override
     public boolean releaseMission(Long id) {
@@ -62,11 +67,50 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
         return missionMapper.searchUncompletedMission(keywords, id);
     }
 
+    @Override
+    public List<Mission> checkMissions(Long id) {
+        List<Mission> missionReached = new ArrayList<>();
+        List<Mission> interactiveMissions = missionMapper.selectUncompletedInteractiveMission(id);
+        System.out.println("shabi");
+        for (Mission mission : interactiveMissions) {
+            int target = mission.getTargetNum();
+            Long process = 0L;
+            if (mission.getKind() == 2) {
+                // 聊天任务
+                process = interactionMapper.getExtentTextTime(mission.getReleaseDate(), mission.getDeadline(), id);
+            } else {
+                // 视频通话任务
+                process = interactionMapper.getExtentVideoTime(mission.getReleaseDate(), mission.getDeadline(), id);
+            }
+            if (process >= mission.getTargetNum()) {
+                reward(id, mission);
+                addMissionHistory(mission, id);
+                missionReached.add(mission);
+            }
+        }
+        return missionReached;
+    }
+
+    @Override
+    public boolean addMissionHistory(Mission mission, Long id) {
+        MissionHistory history = new MissionHistory();
+        history.setStatus((byte) 1);
+        history.setMission(mission);
+        history.setMissionId(mission.getId());
+        history.setFinishDate(LocalDateTime.now());
+        history.setDescription(null);
+        history.setUserId(id);
+
+        return missionHistoryMapper.insert(history) == 1;
+    }
+
 
     @Override
     public List<Mission> selectUncompletedMission(Long id) {
         List<Mission> missions = missionMapper.selectUncompletedMission(id);
         return missions;
     }
+
+
 
 }

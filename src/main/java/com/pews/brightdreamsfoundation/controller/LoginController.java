@@ -31,7 +31,7 @@ public class LoginController {
                 map.put("token", "admin");
                 return new HttpResponseEntity(200, map, "OK");
             }else {
-                return new HttpResponseEntity(200, user, "OK");
+                return new HttpResponseEntity(200, currentUser, "OK");
             }
         }
 

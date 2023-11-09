@@ -18,4 +18,8 @@ public interface MissionService extends IService<Mission> {
     List<Mission> searchCompleted(String keywords, Long id);
 
     List<Mission> searchUncompleted(String keywords, Long id);
+
+    List<Mission> checkMissions(Long id);
+
+    boolean addMissionHistory(Mission mission, Long id);
 }
