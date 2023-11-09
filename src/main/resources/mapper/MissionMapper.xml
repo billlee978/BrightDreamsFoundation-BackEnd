@@ -10,12 +10,12 @@
     <select id="selectCompletedMission" resultType="com.pews.brightdreamsfoundation.beans.Mission">
         select DISTINCT *
         from t_mission
-        where t_mission.id in (select DISTINCT mission_id FROM t_mission_history WHERE user_id = #{id} and status = 1)
+        where t_mission.id in (select DISTINCT mission_id FROM t_mission_history WHERE user_id = #{id} and (status = 1 or status = 0))
     </select>
     <select id="searchCompletedMission" resultType="com.pews.brightdreamsfoundation.beans.Mission">
         select DISTINCT *
         from t_mission
-        where t_mission.id in (select DISTINCT mission_id FROM t_mission_history WHERE user_id = #{id} and status = 1) and
+        where t_mission.id in (select DISTINCT mission_id FROM t_mission_history WHERE user_id = #{id} and (status = 1 or status = 0)) and
               (t_mission.mission_name like #{keywords} or t_mission.description like #{keywords})
     </select>
     <select id="searchUncompletedMission" resultType="com.pews.brightdreamsfoundation.beans.Mission">
