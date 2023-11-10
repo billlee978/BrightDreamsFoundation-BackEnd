@@ -1,11 +1,8 @@
 package com.pews.brightdreamsfoundation.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.Mission;
 import com.pews.brightdreamsfoundation.beans.MissionHistory;
-import com.pews.brightdreamsfoundation.beans.PointHistory;
 import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.mapper.InteractionMapper;
 import com.pews.brightdreamsfoundation.mapper.MissionHistoryMapper;
@@ -18,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> implements MissionService {
@@ -84,7 +79,7 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
             }
             if (process >= mission.getTargetNum()) {
                 reward(id, mission);
-                addMissionHistory(mission, id);
+                addCompletedMissionHistory(mission, id);
                 missionReached.add(mission);
             }
         }
@@ -92,7 +87,7 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
     }
 
     @Override
-    public boolean addMissionHistory(Mission mission, Long id) {
+    public boolean addCompletedMissionHistory(Mission mission, Long id) {
         MissionHistory history = new MissionHistory();
         history.setStatus((byte) 1);
         history.setMission(mission);

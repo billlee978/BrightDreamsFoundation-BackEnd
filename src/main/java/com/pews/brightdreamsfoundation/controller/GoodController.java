@@ -20,6 +20,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 商品控制层
+ */
 @RestController
 @RequestMapping("good")
 public class GoodController {

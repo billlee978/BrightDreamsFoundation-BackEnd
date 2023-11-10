@@ -120,7 +120,7 @@ public class MissionController {
 
     /**
      * 获得用户已完成任务列表
-     * @param id
+     * @param id 用户id
      * @return
      */
     @GetMapping("getCompleted/{id}")

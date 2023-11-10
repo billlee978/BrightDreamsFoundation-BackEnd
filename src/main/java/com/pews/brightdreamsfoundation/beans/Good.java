@@ -1,12 +1,14 @@
 package com.pews.brightdreamsfoundation.beans;
 
-
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 商品bean类
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

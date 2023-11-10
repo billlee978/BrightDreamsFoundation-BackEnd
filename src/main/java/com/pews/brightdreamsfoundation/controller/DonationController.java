@@ -18,6 +18,13 @@ public class DonationController {
     @Autowired
     DonationService donationService;
 
+    /**
+     *
+     * @param page
+     * @param limit
+     * @param donation
+     * @return
+     */
     @GetMapping("{page}/{limit}")
     public HttpResponseEntity getDonationPage(@PathVariable("page") Long page,
                                               @PathVariable("limit") Long limit,
