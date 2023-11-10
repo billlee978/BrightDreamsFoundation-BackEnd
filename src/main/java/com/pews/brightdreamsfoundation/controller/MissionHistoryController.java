@@ -99,5 +99,20 @@ public class MissionHistoryController {
 
     }
 
+    /**
+     * 获取最新的完成任务历史记录
+     * @param id 用户id
+     * @return
+     */
+    @GetMapping("selectNewest/{id}")
+    public HttpResponseEntity selectNewestCompletedHistories(@PathVariable("id") Long id) {
+        QueryWrapper<MissionHistory> wrapper = new QueryWrapper<>();
+        wrapper.eq("USER_ID", id);
+        wrapper.and(i->i.eq("status",1).or().eq("status", 0));
+
+        List<MissionHistory> list = missionHistoryService.list(wrapper);
+        return new HttpResponseEntity(200, list, "查询成功!");
+    }
+
 
 }
