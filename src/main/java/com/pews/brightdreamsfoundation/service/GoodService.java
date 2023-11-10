@@ -9,4 +9,6 @@ public interface GoodService extends IService<Good> {
     void buyGoods(Good good, User user, Order order);
 
     List<Good> sortGoods();
+
+    boolean releaseGood(Long id);
 }

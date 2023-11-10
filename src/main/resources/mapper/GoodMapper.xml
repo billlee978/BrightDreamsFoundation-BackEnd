@@ -25,4 +25,10 @@
         ORDER BY
             purchase_count DESC;
     </select>
+
+    <update id="releaseGood" >
+        update t_good
+        set on_sale = 1
+        where id = #{id};
+    </update>
 </mapper>
