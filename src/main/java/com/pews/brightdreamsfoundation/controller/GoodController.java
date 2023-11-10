@@ -1,16 +1,22 @@
 package com.pews.brightdreamsfoundation.controller;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.model.PutObjectRequest;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.pews.brightdreamsfoundation.beans.Good;
-import com.pews.brightdreamsfoundation.beans.HttpResponseEntity;
-import com.pews.brightdreamsfoundation.beans.Order;
-import com.pews.brightdreamsfoundation.beans.User;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pews.brightdreamsfoundation.beans.*;
 import com.pews.brightdreamsfoundation.service.GoodService;
 import com.pews.brightdreamsfoundation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,6 +27,15 @@ public class GoodController {
     private GoodService goodService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    OSS ossClient;
+    @Value("${aliyun.bucketName}")
+    String bucketName;
+    @Value("${aliyun.endpoint}")
+    String endpoint;
+    @Value("${aliyun.area}")
+    String area;
 
     //创建商品锁，每个商品id对应一个锁
     private final ConcurrentHashMap<Long, ReentrantLock> goodLocks = new ConcurrentHashMap<>();
@@ -160,5 +175,52 @@ public class GoodController {
         }
     }
 
+    @GetMapping("{page}/{limit}")
+    public HttpResponseEntity getGoodPage(@PathVariable("page") Long page,
+                                             @PathVariable("limit") Long limit,
+                                             Good good) {
+        IPage<Good> pageParam = new Page<>(page, limit);
+        LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
+        IPage<Good> iPage = goodService.page(pageParam, wrapper);
 
+        return new HttpResponseEntity(200, iPage, "OK!");
+    }
+
+    @PostMapping("save")
+    public HttpResponseEntity saveGood(@RequestBody Good good) {
+        good.setId(0L);
+        return goodService.save(good) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
+    }
+
+    @RequestMapping("upload")
+    public HttpResponseEntity uploadFile(MultipartFile file) {
+        try {
+            String[] fileOriginalName = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+            String filename = "img/" + UUID.randomUUID() + "." + fileOriginalName[fileOriginalName.length - 1];
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, filename, file.getInputStream());
+            ossClient.putObject(putObjectRequest);
+            String picture = "https://" + bucketName + "." + area + "/" + filename;
+
+            return new HttpResponseEntity(200, picture, "OK");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping("batchRemove")
+    public HttpResponseEntity batchRemove(@RequestBody List<Long> idList) {
+        return goodService.removeBatchByIds(idList) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
+    }
+
+    @PostMapping("releaseGood/{id}")
+    public HttpResponseEntity releaseMission(@PathVariable("id") Long id) {
+        return goodService.releaseGood(id) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
+    }
+
+    @DeleteMapping("remove/{id}")
+    public HttpResponseEntity removeById(@PathVariable("id") Long id) {
+        LambdaQueryWrapper<Good> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Good::getId, id);
+        return goodService.remove(wrapper) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
+    }
 }

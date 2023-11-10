@@ -3,7 +3,6 @@ package com.pews.brightdreamsfoundation.service.Impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.*;
 import com.pews.brightdreamsfoundation.mapper.GoodMapper;
-import com.pews.brightdreamsfoundation.mapper.MissionHistoryMapper;
 import com.pews.brightdreamsfoundation.service.GoodService;
 import com.pews.brightdreamsfoundation.service.OrderService;
 import com.pews.brightdreamsfoundation.service.PointHistoryService;
@@ -56,5 +55,10 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
 
     public List<Good> sortGoods(){
         return goodMapper.sortGoods();
+    }
+
+    @Override
+    public boolean releaseGood(Long id) {
+        return goodMapper.releaseGood(id) == 1;
     }
 }
