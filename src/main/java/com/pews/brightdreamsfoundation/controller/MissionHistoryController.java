@@ -31,7 +31,7 @@ public class MissionHistoryController {
 
     /**
      * 获取该用户的所有任务历史记录
-     * @param id
+     * @param id 用户id
      * @return
      */
     @GetMapping("get/{id}")

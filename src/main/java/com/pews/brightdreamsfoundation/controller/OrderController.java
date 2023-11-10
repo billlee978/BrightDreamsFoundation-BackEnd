@@ -17,6 +17,11 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    /**
+     * 获取某user的所有订单
+     * @param id 用户id
+     * @return
+     */
     @GetMapping("{id}")
     public HttpResponseEntity selectAllOrders(@PathVariable("id") int id) {
         LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();

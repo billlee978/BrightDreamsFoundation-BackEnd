@@ -8,6 +8,7 @@ import com.pews.brightdreamsfoundation.beans.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 public interface PointHistoryService extends IService<PointHistory> {

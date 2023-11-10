@@ -20,14 +20,13 @@ public class InteractionServiceImpl extends ServiceImpl<InteractionMapper, Inter
     @Autowired
     InteractionMapper interactionMapper;
     @Override
-    public List<Interaction> selectAllHistoryInteraction(Long id) {
-        User user = userMapper.selectById(id);
+    public List<Interaction> selectAllHistoryInteraction(User user) {
         LambdaQueryWrapper<Interaction> wrapper = new LambdaQueryWrapper<>();
         wrapper.orderByAsc(true, Interaction::getInteractTime);
         if (user.getRole() == 1) {
-            wrapper.eq(Interaction::getChildrenId, id);
+            wrapper.eq(Interaction::getChildrenId, user.getId());
         } else {
-            wrapper.eq(Interaction::getVolunteerId, id);
+            wrapper.eq(Interaction::getVolunteerId, user.getId());
         }
 
         return interactionMapper.selectList(wrapper);

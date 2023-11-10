@@ -16,6 +16,11 @@ public class PointHistoryController {
     @Autowired
     private PointHistoryService pointHistoryService;
 
+    /**
+     * 根用户id获取积分历史
+     * @param id 用户id
+     * @return
+     */
     @GetMapping("{id}")
     public HttpResponseEntity getHistoryById(@PathVariable("id") int id) {
         LambdaQueryWrapper<PointHistory> wrapper = new LambdaQueryWrapper<>();
