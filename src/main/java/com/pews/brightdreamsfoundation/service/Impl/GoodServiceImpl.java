@@ -14,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * 商品业务逻辑代码
+ */
 @Service
-//@Transactional(propagation = Propagation.REQUIRED)
 public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements GoodService {
     @Autowired
     private GoodMapper goodMapper;
@@ -30,6 +32,7 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
     private UserService userService;
 
     /**
+     * 购买商品功能：
      * 逻辑1：减少库存
      * 逻辑2：减少积分
      * 逻辑3：增加减少积分的记录
@@ -53,6 +56,9 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
         pointHistoryService.addPointHistory(user, order);
     }
 
+    /**
+     * 商品排序功能：
+     */
     public List<Good> sortGoods(){
         return goodMapper.sortGoods();
     }
