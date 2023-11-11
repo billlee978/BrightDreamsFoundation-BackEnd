@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.v3.oas.annotations.media.Content;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,10 +21,10 @@ import java.time.LocalDateTime;
 public class Interaction {
     @TableId(type = IdType.AUTO)
     Long id;
-    @TableField(value = "CHILDREN_ID")
-    Long childrenId;
-    @TableField(value = "VOLUNTEER_ID")
-    Long volunteerId;
+    @TableField(value = "SENDER_ID")
+    Long senderId;
+    @TableField(value = "RECEIVER_ID")
+    Long receiverId;
     @TableField(value = "TYPE", jdbcType = JdbcType.TINYINT) // 2: 发送消息 3: 视频通话
     byte type;
     @TableField(value = "INTERACT_TIME")

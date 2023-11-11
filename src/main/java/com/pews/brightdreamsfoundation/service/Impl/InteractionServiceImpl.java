@@ -1,6 +1,7 @@
 package com.pews.brightdreamsfoundation.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pews.brightdreamsfoundation.beans.Interaction;
 import com.pews.brightdreamsfoundation.beans.User;
@@ -21,13 +22,9 @@ public class InteractionServiceImpl extends ServiceImpl<InteractionMapper, Inter
     InteractionMapper interactionMapper;
     @Override
     public List<Interaction> selectAllHistoryInteraction(User user) {
-        LambdaQueryWrapper<Interaction> wrapper = new LambdaQueryWrapper<>();
-        wrapper.orderByAsc(true, Interaction::getInteractTime);
-        if (user.getRole() == 1) {
-            wrapper.eq(Interaction::getChildrenId, user.getId());
-        } else {
-            wrapper.eq(Interaction::getVolunteerId, user.getId());
-        }
+        QueryWrapper<Interaction> wrapper = new QueryWrapper<>();
+        wrapper.orderByAsc(true, "INTERACT_TIME");
+        wrapper.and(i->i.eq("SENDER_ID", user.getId()).or().eq("RECEIVER_ID", user.getId()));
 
         return interactionMapper.selectList(wrapper);
     }

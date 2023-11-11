@@ -66,7 +66,6 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
     public List<Mission> checkMissions(Long id) {
         List<Mission> missionReached = new ArrayList<>();
         List<Mission> interactiveMissions = missionMapper.selectUncompletedInteractiveMission(id);
-        System.out.println("shabi");
         for (Mission mission : interactiveMissions) {
             int target = mission.getTargetNum();
             Long process = 0L;
