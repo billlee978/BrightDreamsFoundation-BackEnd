@@ -14,6 +14,9 @@ import org.apache.ibatis.type.JdbcType;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * 积分历史实体类
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

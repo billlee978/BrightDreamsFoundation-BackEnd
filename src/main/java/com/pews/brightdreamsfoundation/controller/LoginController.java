@@ -10,12 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 登录controller
+ */
 @RestController
 @RequestMapping("user")
 public class LoginController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
     @PostMapping("login")
     public HttpResponseEntity login(@RequestBody User user) {
         HashMap<String, Object> map = new HashMap<>();

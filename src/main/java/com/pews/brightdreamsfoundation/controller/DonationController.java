@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 捐赠记录controller
+ */
 @RestController
 @RequestMapping("donation")
 public class DonationController {
@@ -19,7 +22,7 @@ public class DonationController {
     DonationService donationService;
 
     /**
-     *
+     * 捐赠记录分页
      * @param page
      * @param limit
      * @param donation

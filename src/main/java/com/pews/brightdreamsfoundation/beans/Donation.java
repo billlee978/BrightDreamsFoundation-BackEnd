@@ -13,6 +13,9 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * 捐赠记录实体类
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

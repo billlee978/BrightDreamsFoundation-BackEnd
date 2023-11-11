@@ -10,6 +10,9 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDateTime;
 
+/**
+ * 订单历史实体类
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

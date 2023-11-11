@@ -12,4 +12,6 @@ public interface MissionHistoryService extends IService<MissionHistory> {
     boolean submit(MissionHistory history);
 
     List<MissionHistory> searchHistory(Long id, String keywords);
+
+    List<MissionHistory> searchCompletedHistory(Long id, String keywords);
 }

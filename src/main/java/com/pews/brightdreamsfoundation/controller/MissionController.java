@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * 任务系统controller
+ */
 @RestController
 @RequestMapping("mission")
 public class MissionController {
@@ -151,7 +154,7 @@ public class MissionController {
     /**
      * 根据关键词搜索未完成任务
      * @param keywords
-     * @param id
+     * @param id 用户id
      * @return
      */
     @PostMapping("searchUncompleted/{id}")

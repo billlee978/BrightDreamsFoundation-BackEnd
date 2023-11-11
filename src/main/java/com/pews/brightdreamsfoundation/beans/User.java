@@ -10,6 +10,9 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDateTime;
 
+/**
+ * 用户实体类
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

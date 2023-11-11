@@ -12,4 +12,6 @@ import java.util.Objects;
 @Mapper
 public interface MissionHistoryMapper extends BaseMapper<MissionHistory> {
     List<MissionHistory> searchHistory(Long id, String keywords);
+
+    List<MissionHistory> searchCompletedHistory(Long id, String keywords);
 }

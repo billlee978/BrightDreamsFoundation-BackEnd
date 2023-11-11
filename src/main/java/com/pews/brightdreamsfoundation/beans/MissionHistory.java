@@ -13,6 +13,9 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDateTime;
 
+/**
+ * 任务历史记录实体类
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -4,8 +4,10 @@ package com.pews.brightdreamsfoundation.controller;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pews.brightdreamsfoundation.beans.Interaction;
+import com.pews.brightdreamsfoundation.beans.MissionHistory;
 import com.pews.brightdreamsfoundation.beans.User;
 import com.pews.brightdreamsfoundation.service.InteractionService;
+import com.pews.brightdreamsfoundation.service.MissionService;
 import com.pews.brightdreamsfoundation.service.UserService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
@@ -17,13 +19,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * websocket终端类
+ */
 @RestController
 @ServerEndpoint("/chat/{id}")
 public class ChatEndpoint {
     private static ConcurrentHashMap<Long, ChatEndpoint> webSocketSet = new ConcurrentHashMap<>();
     private static InteractionService interactionService;
+
+    // 当前用户
     private User currentUser;
+    // 当前对话用户id
     private Long chatUserId;
+    // 当前websocket建立的会话
     private Session session;
 
     @Autowired
@@ -37,6 +46,18 @@ public class ChatEndpoint {
         ChatEndpoint.userService = service;
     }
 
+    private static MissionService missionService;
+    @Autowired
+    public void setMissionService(MissionService service) {
+        ChatEndpoint.missionService = service;
+    }
+
+
+    /**
+     * 建立会话，并且把当前会话存入map，同时将用户历史记录返回
+     * @param id
+     * @param session
+     */
     @OnOpen
     public void openSession(@PathParam("id") Long id, Session session){
         System.out.println("建立连接");
@@ -63,12 +84,18 @@ public class ChatEndpoint {
 
     }
 
+    /**
+     * 将该消息记录存入数据库，同时检查交谈用户会话是否存在，如果存在则将该信息发送
+     * @param message
+     * @param session
+     */
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.println(message);
         Interaction interaction = JSON.parseObject(message, Interaction.class);
         interaction.setReceiverId(this.chatUserId);
         interactionService.save(interaction);
+        missionService.checkMissions(interaction.getSenderId());
         if (ChatEndpoint.webSocketSet.containsKey(this.chatUserId)) {
             ChatEndpoint.webSocketSet.get(this.chatUserId).session.getAsyncRemote().sendText(JSON.toJSONString(interaction));
         }
@@ -76,6 +103,11 @@ public class ChatEndpoint {
     }
 
 
+    /**
+     * 关闭窗口时调用的函数
+     * @param id
+     * @param session
+     */
     @OnClose
     public void onClose(@PathParam("id") Long id, Session session) {
         //当前的Session 移除
@@ -91,8 +123,5 @@ public class ChatEndpoint {
             System.out.println("会话出现异常");;
         }
     }
-
-
-
 
 }

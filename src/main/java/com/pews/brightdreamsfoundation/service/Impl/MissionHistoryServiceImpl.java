@@ -99,4 +99,17 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
 
         return histories;
     }
+
+    @Override
+    public List<MissionHistory> searchCompletedHistory(Long id, String keywords) {
+        keywords = "%" + keywords + "%";
+        List<MissionHistory> histories = mapper.searchCompletedHistory(id, keywords);
+        for (MissionHistory history : histories) {
+            LambdaQueryWrapper<Mission> missionWrapper = new LambdaQueryWrapper<>();
+            missionWrapper.eq(Mission::getId, history.getMissionId());
+            history.setMission(missionService.getOne(missionWrapper));
+        }
+
+        return histories;
+    }
 }
