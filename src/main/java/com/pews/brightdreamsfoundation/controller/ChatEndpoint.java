@@ -67,6 +67,7 @@ public class ChatEndpoint {
     public void onMessage(String message, Session session) {
         System.out.println(message);
         Interaction interaction = JSON.parseObject(message, Interaction.class);
+        interaction.setReceiverId(this.chatUserId);
         interactionService.save(interaction);
         if (ChatEndpoint.webSocketSet.containsKey(this.chatUserId)) {
             ChatEndpoint.webSocketSet.get(this.chatUserId).session.getAsyncRemote().sendText(JSON.toJSONString(interaction));
