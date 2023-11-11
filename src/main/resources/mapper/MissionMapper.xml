@@ -21,14 +21,14 @@
     <select id="searchUncompletedMission" resultType="com.pews.brightdreamsfoundation.beans.Mission">
         select *
         from t_mission
-        where t_mission.id not in (select DISTINCT mission_id FROM t_mission_history WHERE user_id = #{id} and status = 1) and
+        where t_mission.id not in (select DISTINCT mission_id FROM t_mission_history WHERE user_id = #{id} and (status = 1 or status = 0)) and
               (t_mission.mission_name like #{keywords} or t_mission.description like #{keywords}) and
                 NOW() > t_mission.release_date and t_mission.deadline > NOW();
     </select>
     <select id="selectUncompletedMission" resultType="com.pews.brightdreamsfoundation.beans.Mission">
         select *
         from t_mission
-        where t_mission.id not in (select DISTINCT mission_id FROM t_mission_history WHERE user_id = #{id} and status = 1) and
+        where t_mission.id not in (select DISTINCT mission_id FROM t_mission_history WHERE user_id = #{id} and (status = 1 or status = 0)) and
             NOW() > t_mission.release_date and t_mission.deadline > NOW();
     </select>
     <select id="selectUncompletedInteractiveMission"

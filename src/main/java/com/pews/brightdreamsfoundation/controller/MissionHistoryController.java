@@ -115,4 +115,17 @@ public class MissionHistoryController {
     }
 
 
+    /**
+     * 根据关键字搜索任务历史记录
+     * @param id 用户id
+     * @param keywords 关键词 (请使用formData发送)
+     * @return
+     */
+    @PostMapping("search/{id}")
+    public HttpResponseEntity searchMissionHistory(@PathVariable("id") Long id, String keywords) {
+        List<MissionHistory> histories = missionHistoryService.searchHistory(id, keywords);
+        return new HttpResponseEntity(200, histories, "查询成功！");
+    }
+
+
 }

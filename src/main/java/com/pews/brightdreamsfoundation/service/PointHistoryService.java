@@ -16,4 +16,5 @@ public interface PointHistoryService extends IService<PointHistory> {
 
     boolean addPointHistory(User user, Order order);
 
+
 }
