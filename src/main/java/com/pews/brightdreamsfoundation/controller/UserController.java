@@ -14,12 +14,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * 用户controller
+ */
 @RestController
 @RequestMapping("userInfo")
 public class UserController {
     @Autowired
     UserServiceImpl userService;
 
+    /**
+     * 用户列表分页查询
+     * @param page
+     * @param limit
+     * @param user
+     * @return
+     */
     @GetMapping("{page}/{limit}")
     public HttpResponseEntity getUserPage(@PathVariable("page") Long page,
                                           @PathVariable("limit") Long limit,
@@ -67,17 +77,32 @@ public class UserController {
         return new HttpResponseEntity(200, iPage, "OK");
     }
 
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
     @DeleteMapping("remove/{id}")
     public HttpResponseEntity removeUser(@PathVariable("id") Long id) {
         return userService.removeById(id) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
     }
 
+    /**
+     * 添加用户
+     * @param user
+     * @return
+     */
     @PostMapping("save")
     public HttpResponseEntity insertUser(@RequestBody User user) {
         user.setId(0L);
         return userService.save(user) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
     }
 
+    /**
+     * 查询用户
+     * @param id
+     * @return
+     */
     @GetMapping("get/{id}")
     public HttpResponseEntity getOneUser(@PathVariable("id") Long id) {
         User user = userService.getById(id);
@@ -88,6 +113,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 更新用户
+     * @param user
+     * @return
+     */
     @PutMapping("/update")
     public HttpResponseEntity updateUser(@RequestBody User user) {
         if (!ObjectUtils.isEmpty(user)) {
@@ -97,11 +127,23 @@ public class UserController {
         }
     }
 
+    /**
+     * 批量移除用户
+     * @param idList
+     * @return
+     */
     @DeleteMapping("batchRemove")
     public HttpResponseEntity batchRemove(@RequestBody List<String> idList) {
         return userService.removeBatchByIds(idList) ? HttpResponseEntity.ok() : new HttpResponseEntity(500, null, "Failed!");
     }
 
+    /**
+     * 获取绑定信息
+     * @param id
+     * @param isBind
+     * @param isFromChild
+     * @return
+     */
     @GetMapping("getBind/{id}/{isBind}/{isFromChild}")
     public HttpResponseEntity getBind(@PathVariable("id") Long id,
                                       @PathVariable("isBind") Boolean isBind,
@@ -113,16 +155,35 @@ public class UserController {
         }
     }
 
+    /**
+     * 获取绑定对象id
+     * @param id
+     * @param idList
+     * @param isChildBind 是否来自children请求
+     * @return
+     */
     @PostMapping("bind/{id}/{isChildBind}")
     public HttpResponseEntity bind(@PathVariable("id") Long id, @RequestBody List<Long> idList, @PathVariable("isChildBind") Boolean isChildBind) {
         return new HttpResponseEntity(200, userService.bind(id, idList, isChildBind), "OK!");
     }
 
+    /**
+     * 接触绑定
+     * @param id
+     * @param idList
+     * @param isChildUnbind
+     * @return
+     */
     @DeleteMapping("unbind/{id}/{isChildUnbind}")
     public HttpResponseEntity unbind(@PathVariable("id") Long id, @RequestBody List<Long> idList, @PathVariable("isChildUnbind") Boolean isChildUnbind) {
         return new HttpResponseEntity(200, userService.unbind(id, idList, isChildUnbind), "OK!");
     }
 
+    /**
+     * 注册功能
+     * @param user
+     * @return
+     */
     @PostMapping("register")
     public HttpResponseEntity register(@RequestBody User user) {
         if (userService.register(user) != 0) {
@@ -132,6 +193,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 更新用户
+     * @param user
+     * @return
+     */
     @PostMapping("update")
     public HttpResponseEntity update(@RequestBody User user) {
 

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 积分历史的controller
+ */
 @RestController
 @RequestMapping("pointHistory")
 public class PointHistoryController {
@@ -30,6 +33,11 @@ public class PointHistoryController {
         return new HttpResponseEntity(200, histories, "查询成功!");
     }
 
+    /**
+     * 添加积分历史
+     * @param pointHistory
+     * @return
+     */
     @PostMapping("")
     public HttpResponseEntity addHistory(@RequestBody PointHistory pointHistory) {
         pointHistory.setChangeDate(LocalDateTime.now());

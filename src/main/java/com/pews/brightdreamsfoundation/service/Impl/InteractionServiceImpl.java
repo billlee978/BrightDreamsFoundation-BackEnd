@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 互动记录业务层
+ */
 @Service
 public class InteractionServiceImpl extends ServiceImpl<InteractionMapper, Interaction> implements InteractionService {
     @Autowired
@@ -20,6 +23,12 @@ public class InteractionServiceImpl extends ServiceImpl<InteractionMapper, Inter
 
     @Autowired
     InteractionMapper interactionMapper;
+
+    /**
+     * 根据用户信息获取他的所有互动记录
+     * @param user
+     * @return
+     */
     @Override
     public List<Interaction> selectAllHistoryInteraction(User user) {
         QueryWrapper<Interaction> wrapper = new QueryWrapper<>();

@@ -128,7 +128,7 @@ public class MissionHistoryController {
     }
 
     /**
-     * 根据关键字搜索任务历史记录
+     * 根据关键字搜索已完成任务历史记录
      * @param id 用户id
      * @param keywords 关键词 (请使用formData发送)
      * @return

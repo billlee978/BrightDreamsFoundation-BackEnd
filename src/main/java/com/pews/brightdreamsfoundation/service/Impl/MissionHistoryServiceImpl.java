@@ -23,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 任务提交历史记录业务层
+ */
 @Service
 public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper, MissionHistory> implements MissionHistoryService {
 
@@ -38,6 +41,11 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
     @Autowired
     PointHistoryService pointHistoryService;
 
+    /**
+     * 获取任务历史列表，并填充mission对象
+     * @param queryWrapper
+     * @return
+     */
     @Override
     public List<MissionHistory> list(Wrapper<MissionHistory> queryWrapper) {
         List<MissionHistory> histories = super.list(queryWrapper);

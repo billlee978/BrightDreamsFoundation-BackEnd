@@ -25,12 +25,17 @@ public class OrderController {
     @GetMapping("{id}")
     public HttpResponseEntity selectAllOrders(@PathVariable("id") int id) {
         LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Order::getId, id);
+        wrapper.eq(Order::getUserId, id);
         List<Order> orders = orderService.list(wrapper);
 
         return new HttpResponseEntity(200, orders, "查询成功!");
     }
 
+    /**
+     * 添加订单
+     * @param order
+     * @return
+     */
     @PostMapping("add")
     public HttpResponseEntity addOrder(@RequestBody Order order) {
         order.setCreateDate(LocalDateTime.now());
@@ -42,4 +47,35 @@ public class OrderController {
         }
 
     }
+
+    /**
+     * 对订单进行排序接口 0: 按日期从大到小排序 1: 按日期从小到大排序 2: 按金额从大到小排序 3: 按金额从小到大排序
+     * @param type 排序类型
+     * @param id 用户id
+     * @return
+     */
+    @GetMapping("{id}/{type}")
+    public HttpResponseEntity sortByType(@PathVariable("type") int type, @PathVariable("id") Long id) {
+        LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Order::getUserId, id);
+        switch (type){
+            case 0:
+                wrapper.orderBy(true, false, Order::getCreateDate);
+                break;
+            case 1:
+                wrapper.orderBy(true, true, Order::getCreateDate);
+                break;
+            case 2:
+                wrapper.orderBy(true, false, Order::getTotal);
+                break;
+            case 3:
+                wrapper.orderBy(true, true, Order::getTotal);
+                break;
+        }
+
+        List<Order> orders = orderService.list(wrapper);
+
+        return new HttpResponseEntity(200, orders, "查询成功!");
+    }
+
 }

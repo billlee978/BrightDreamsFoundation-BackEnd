@@ -25,6 +25,8 @@ public class Order {
     Long userId;
     @TableField(value = "GOOD_ID")
     Long goodId;
+    @TableField(exist = false)
+    Good good;
     @TableField(value = "AMOUNT")
     Integer amount;
     @TableField(value = "TOTAL")
