@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pews.brightdreamsfoundation.mapper.MissionHistoryMapper">
 
+    <select id="searchHistory" resultType="com.pews.brightdreamsfoundation.beans.MissionHistory">
+        select t_mission_history.id, t_mission_history.user_id, t_mission_history.mission_id, t_mission_history.finish_date, t_mission_history.submission_url, t_mission_history.status, t_mission_history.description, t_mission_history.comment, t_mission_history.rate
+        from t_mission_history, t_mission
+        where t_mission_history.mission_id = t_mission.id and t_mission_history.user_id = #{id} and
+              (t_mission_history.description like #{keywords} or t_mission_history.comment like #{keywords} or
+               t_mission.mission_name like #{keywords} or t_mission.description like #{keywords});
+    </select>
 </mapper>
