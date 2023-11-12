@@ -6,6 +6,7 @@
         select t_mission_history.id, t_mission_history.user_id, t_mission_history.mission_id, t_mission_history.finish_date, t_mission_history.submission_url, t_mission_history.status, t_mission_history.description, t_mission_history.comment, t_mission_history.rate
         from t_mission_history, t_mission
         where t_mission_history.mission_id = t_mission.id and t_mission_history.user_id = #{id} and
+              (t_mission.kind = 0 or t_mission.kind = 1) and
               (t_mission_history.description like #{keywords} or t_mission_history.comment like #{keywords} or
                t_mission.mission_name like #{keywords} or t_mission.description like #{keywords});
     </select>
