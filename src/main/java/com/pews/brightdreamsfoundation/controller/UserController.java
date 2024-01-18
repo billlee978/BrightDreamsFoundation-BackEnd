@@ -186,6 +186,7 @@ public class UserController {
      */
     @PostMapping("register")
     public HttpResponseEntity register(@RequestBody User user) {
+        user.setRole((byte) 1);
         if (userService.register(user) != 0) {
             return new HttpResponseEntity(404, null, "注册失败，用户已经存在!");
         } else {

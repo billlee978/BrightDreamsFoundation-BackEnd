@@ -28,6 +28,8 @@ public class ChatEndpoint {
     private static ConcurrentHashMap<Long, ChatEndpoint> webSocketSet = new ConcurrentHashMap<>();
     private static InteractionService interactionService;
 
+    private static MissionService missionService;
+
     // 当前用户
     private User currentUser;
     // 当前对话用户id
@@ -46,7 +48,7 @@ public class ChatEndpoint {
         ChatEndpoint.userService = service;
     }
 
-    private static MissionService missionService;
+
     @Autowired
     public void setMissionService(MissionService service) {
         ChatEndpoint.missionService = service;
@@ -95,10 +97,15 @@ public class ChatEndpoint {
         Interaction interaction = JSON.parseObject(message, Interaction.class);
         interaction.setReceiverId(this.chatUserId);
         interactionService.save(interaction);
-        missionService.checkMissions(interaction.getSenderId());
-        if (ChatEndpoint.webSocketSet.containsKey(this.chatUserId)) {
-            ChatEndpoint.webSocketSet.get(this.chatUserId).session.getAsyncRemote().sendText(JSON.toJSONString(interaction));
+        try {
+            missionService.checkMissions(currentUser.getId());
+            if (ChatEndpoint.webSocketSet.containsKey(this.chatUserId)) {
+                ChatEndpoint.webSocketSet.get(this.chatUserId).session.getAsyncRemote().sendText(JSON.toJSONString(interaction));
+            }
+        }catch (Exception e) {
+            System.out.println(e);
         }
+
 
     }
 

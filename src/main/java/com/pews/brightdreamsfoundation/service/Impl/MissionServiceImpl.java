@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 任务系统业务层实现类
+ */
 @Service
 public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> implements MissionService {
     @Autowired
@@ -31,16 +34,32 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
     @Autowired
     InteractionMapper interactionMapper;
 
+    /**
+     * 发布任务
+     * @param id
+     * @return
+     */
     @Override
     public boolean releaseMission(Long id) {
         return missionMapper.releaseMission(id) == 1;
     }
 
+    /**
+     * 查询所有已完成任务
+     * @param id
+     * @return
+     */
     @Override
     public List<Mission> selectCompletedMission(Long id) {
         return missionMapper.selectCompletedMission(id);
     }
 
+    /**
+     * 根据任务对用户发放奖励
+     * @param userId
+     * @param mission
+     * @return
+     */
     @Override
     public boolean reward(Long userId, Mission mission) {
         User user = userService.getById(userId);
@@ -50,18 +69,35 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
 
     }
 
+    /**
+     * 搜索已完成任务
+     * @param keywords
+     * @param id
+     * @return
+     */
     @Override
     public List<Mission> searchCompleted(String keywords, Long id) {
         keywords = "%" + keywords + "%";
         return missionMapper.searchCompletedMission(keywords, id);
     }
 
+    /**
+     * 查询未完成任务
+     * @param keywords
+     * @param id
+     * @return
+     */
     @Override
     public List<Mission> searchUncompleted(String keywords, Long id) {
         keywords = "%" + keywords + "%";
         return missionMapper.searchUncompletedMission(keywords, id);
     }
 
+    /**
+     * 检测当前是否有新任务完成
+     * @param id
+     * @return
+     */
     @Override
     public List<Mission> checkMissions(Long id) {
         List<Mission> missionReached = new ArrayList<>();
@@ -85,6 +121,12 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
         return missionReached;
     }
 
+    /**
+     * 添加已完成任务历史记录
+     * @param mission
+     * @param id
+     * @return
+     */
     @Override
     public boolean addCompletedMissionHistory(Mission mission, Long id) {
         MissionHistory history = new MissionHistory();
@@ -99,6 +141,11 @@ public class MissionServiceImpl extends ServiceImpl<MissionMapper, Mission> impl
     }
 
 
+    /**
+     * 获取未完成任务列表
+     * @param id
+     * @return
+     */
     @Override
     public List<Mission> selectUncompletedMission(Long id) {
         List<Mission> missions = missionMapper.selectUncompletedMission(id);

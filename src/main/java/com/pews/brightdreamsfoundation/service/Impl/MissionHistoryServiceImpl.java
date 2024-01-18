@@ -59,6 +59,12 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
     }
 
 
+    /**
+     * 批改儿童提交作业
+     * @param id
+     * @param result
+     * @return
+     */
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean judgeStudyMission(Long id, Byte result) {
@@ -78,6 +84,11 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
         }
     }
 
+    /**
+     * 儿童提交作业
+     * @param history
+     * @return
+     */
     @Override
     public boolean submit(MissionHistory history) {
         LambdaQueryWrapper<MissionHistory> wrapper = new LambdaQueryWrapper<>();
@@ -95,6 +106,12 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
         }
     }
 
+    /**
+     * 搜索学习任务历史提交记录
+     * @param id
+     * @param keywords
+     * @return
+     */
     @Override
     public List<MissionHistory> searchHistory(Long id, String keywords) {
         keywords = "%" + keywords + "%";
@@ -108,6 +125,12 @@ public class MissionHistoryServiceImpl extends ServiceImpl<MissionHistoryMapper,
         return histories;
     }
 
+    /**
+     * 搜索所有已完成任务记录
+     * @param id
+     * @param keywords
+     * @return
+     */
     @Override
     public List<MissionHistory> searchCompletedHistory(Long id, String keywords) {
         keywords = "%" + keywords + "%";

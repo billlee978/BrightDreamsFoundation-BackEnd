@@ -32,7 +32,7 @@ public class LoginController {
         wrapper.eq("PASSWORD", user.getPassword().trim());
         List<User> users = userService.list(wrapper);
         if (users.isEmpty()) {
-            return new HttpResponseEntity(404, null, "No such user!");
+            return new HttpResponseEntity(404, null, "登陆失败!");
         } else {
             User currentUser = users.get(0);
             if (currentUser.getRole() == 0) {

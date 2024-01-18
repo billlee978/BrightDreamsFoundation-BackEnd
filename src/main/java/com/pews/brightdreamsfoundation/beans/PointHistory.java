@@ -34,6 +34,6 @@ public class PointHistory{
     @TableField(value = "CHANGE_DATE")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     LocalDateTime changeDate;
-    @TableField(value = "type", jdbcType = JdbcType.TINYINT)
+    @TableField(value = "type", jdbcType = JdbcType.TINYINT) //1：学习，2：互动，3：购买
     Byte type;
 }
